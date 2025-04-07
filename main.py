@@ -40,7 +40,7 @@ def check_access_Controller_to_switch():
     private_key = "7354d112f673e3dbc329479d91b8e97a6b77a327389dd946227a15360a67ccb6"
     print("Connection to iota.network:", web3.is_connected())
     
-    with open('abi/authority.json') as f:
+    with open('abi/AccessControl.json') as f:
         abi = json.load(f)
 
     address = "0x0314121674134A7463c17343406ad44951424C09"
@@ -61,7 +61,7 @@ def check_access_Switch_to_switch():
     private_key = "7354d112f673e3dbc329479d91b8e97a6b77a327389dd946227a15360a67ccb6"
     print("Connection to iota.network:", web3.is_connected())
     
-    with open('abi/authority.json') as f:
+    with open('abi/AccessControl.json') as f:
         abi = json.load(f)
     
     address = "0x0314121674134A7463c17343406ad44951424C09"
@@ -81,7 +81,7 @@ def check_access_Controller_to_contoller():
     private_key = "7354d112f673e3dbc329479d91b8e97a6b77a327389dd946227a15360a67ccb6"
     print("Connection to iota.network:", web3.is_connected())
     
-    with open('abi/authority.json') as f:
+    with open('abi/AccessControl.json') as f:
         abi = json.load(f)
     
     address = "0x0314121674134A7463c17343406ad44951424C09"
