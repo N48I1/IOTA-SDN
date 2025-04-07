@@ -29,7 +29,7 @@ def check_certificate_validity():
     with open('abi/authority.json') as f:
         abi = json.load(f)   
 
-    address = "0xab250BaaC49473AC0B07A26Fc8D5A2D345491b91"
+    address = "0x0Be1F0693de448713574cE71097A066b6788fa63"
     contract = web3.eth.contract(address=address, abi=abi)
     x = contract.functions.isCertificateValid(my_address).call()
     return x
@@ -43,15 +43,12 @@ def check_access_Controller_to_switch():
     with open('abi/AccessControl.json') as f:
         abi = json.load(f)
 
-    address = "0x0314121674134A7463c17343406ad44951424C09"
+    address = "0x4BF6d3358537BB5d396f64eDD521bc9cE922ad97"
     contract = web3.eth.contract(address=address, abi=abi)
     
     # Function used by Devices to get access Control between Devices (controller 1 and switch 2):
     x = contract.functions.checkAccess('0x7F53d082A31c065493A119800AE9B680a752b5F9', '0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234').call()
     
-    x_1 = contract.functions.checkAccess('0x7F53d082A31c065493A119800AE9B680a752b5F9','0x5eE1BEdd2E19DebFdD62eA57BDD1AcF8bf36C58A').call()
-
-    #if topology_1(): 
     print("Get access status between Controller C0 and Switch S1 : ", x)
     return x  
 
@@ -64,14 +61,12 @@ def check_access_Switch_to_switch():
     with open('abi/AccessControl.json') as f:
         abi = json.load(f)
     
-    address = "0x0314121674134A7463c17343406ad44951424C09"
+    address = "0x4BF6d3358537BB5d396f64eDD521bc9cE922ad97"
     contract = web3.eth.contract(address=address, abi=abi)
     
     # Function used by Devices to get access Control betwen Devices (switch 1 and switch 2):
-    z = contract.functions.checkAccess('0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234','0xE422568F3C95990E5F58BE87B27F0804017b8697').call()
-    z_1 = contract.functions.checkAccess('0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234','0x5eE1BEdd2E19DebFdD62eA57BDD1AcF8bf36C58A').call()
-    
-    #if topology_1(): 
+    z = contract.functions.checkAccess('0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234','0xE422568F3C95990E5F58BE87B27F0804017b8697').call()    
+
     print("Get access status between switch1 and switch2  : ",z) 
     return z
 
@@ -84,14 +79,12 @@ def check_access_Controller_to_contoller():
     with open('abi/AccessControl.json') as f:
         abi = json.load(f)
     
-    address = "0x0314121674134A7463c17343406ad44951424C09"
+    address = "0x4BF6d3358537BB5d396f64eDD521bc9cE922ad97"
     contract = web3.eth.contract(address=address, abi=abi)
     
     #Function used by Devices to get access Control betwen Devices (controller 1 and Controller 2):
     y = contract.functions.checkAccessC('0x7F53d082A31c065493A119800AE9B680a752b5F9','0x52f68B8c1c11DF43eDF0b47ba20952FF5d299218').call()
-    y_1 = contract.functions.checkAccessC('0x7F53d082A31c065493A119800AE9B680a752b5F9','0x52f68B8c1c11DF43eDF0b47ba20952FF5d299218').call()
     
-    #if topology_1(): 
     print("Get access status between controller1 and Controller2  : ",y)
     return y
 
@@ -150,11 +143,3 @@ if __name__ == '__main__':
     access_control_SS = check_access_Switch_to_switch()
     access_control_CC = check_access_Controller_to_contoller()
     start_mininet_cli(net1, certificate_valid, access_control_CS, access_control_SS, access_control_CC)
-    
-    # For topology 2
-    #net2 = topology_2()
-    #certificate_valid = check_certificate_validity()
-    #access_control_CS = check_access_Controller_to_switch()
-    #access_control_SS = check_access_Switch_to_switch()
-    #access_control_CC = check_access_Controller_to_contoller()
-    #start_mininet_cli(net2, certificate_valid, access_control_CS, access_control_SS, access_control_CC)
