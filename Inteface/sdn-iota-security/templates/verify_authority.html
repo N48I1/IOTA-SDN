@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">Vérification d'Autorité</h4>
+    </div>
+    <div class="card-body">
+        <p class="mb-4">Utilisez ce formulaire pour vérifier la validité d'une autorité sur le réseau SDN.</p>
+        
+        <form method="POST" action="{{ url_for('verify_authority') }}">
+            <div class="mb-3">
+                <label for="authority_id" class="form-label">ID d'Autorité ou Adresse Ethereum</label>
+                <input type="text" class="form-control" id="authority_id" name="authority_id" 
+                       placeholder="0x..." required>
+                <div class="form-text">Entrez l'adresse Ethereum ou l'ID d'autorité à vérifier.</div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search me-2"></i>Vérifier
+            </button>
+        </form>
+        
+        <div id="loader" class="mt-4"></div>
+        
+        {% if result %}
+        <div class="mt-4">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Résultat de la vérification</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p><strong>ID/Adresse:</strong> {{ result.authority_id }}</p>
+                            <p><strong>Timestamp:</strong> {{ result.timestamp|datetime }}</p>
+                            <p>
+                                <strong>Statut:</strong>
+                                {% if result.is_valid %}
+                                <span class="status-badge status-valid">
+                                    <i class="fas fa-check-circle me-1"></i>Autorité valide
+                                </span>
+                                {% else %}
+                                <span class="status-badge status-invalid">
+                                    <i class="fas fa-times-circle me-1"></i>Autorité invalide
+                                </span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-center d-flex align-items-center justify-content-center">
+                            {% if result.is_valid %}
+                            <i class="fas fa-shield-check text-success fa-5x"></i>
+                            {% else %}
+                            <i class="fas fa-shield-exclamation text-danger fa-5x"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const loader = document.getElementById('loader');
+        
+        if (form) {
+            form.addEventListener('submit', function() {
+                loader.style.display = 'block';
+            });
+        }
+    });
+</script>
+{% endblock %}

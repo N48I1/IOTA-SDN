@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Statut du réseau IOTA</h4>
+        <button class="btn btn-primary btn-sm" id="refreshBtn">
+            <i class="fas fa-sync-alt me-2"></i>Actualiser
+        </button>
+    </div>
+    <div class="card-body">
+        <p class="mb-4">Surveillez l'état de votre connexion au réseau IOTA et des transactions liées à votre sécurité SDN.</p>
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">État du réseau</h5>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="p-2 bg-success rounded-circle me-2"></div>
+                            <span class="fw-bold">{{ status.network }}</span>
+                        </div>
+                        <p class="mb-2"><strong>ID du nœud:</strong> {{ status.node_id }}</p>
+                        <p class="mb-0"><strong>Taux de confirmation:</strong> {{ status.confirmations_rate }}</p>
+                    </div>
+                </div>
+                
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Informations de synchronisation</h5>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" 
+                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                        </div>
+                        <p class="mb-2"><strong>Dernière mise à jour:</strong> <span id="lastUpdate">Aujourd'hui à 15:32</span></p>
+                        <p class="mb-0"><strong>Transactions traitées:</strong> {{ status.transactions }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Transactions récentes</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Hash</th>
+                                        <th>Type</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <small>XNZBY9...FGT43</small>
+                                        </td>
+                                        <td>Authority</td>
+                                        <td><span class="badge bg-success">Confirmée</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <small>PQR78T...KLM56</small>
+                                        </td>
+                                        <td>Access</td>
+                                        <td><span class="badge bg-success">Confirmée</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <small>ABC123...XYZ89</small>
+                                        </td>
+                                        <td>DoS Alert</td>
+                                        <td><span class="badge bg-warning text-dark">En attente</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card bg-light mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Adresses surveillées</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Adresse</th>
+                                        <th>Type</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <small>{{ session.get('metamask_address', '0x123...456') }}</small>
+                                        </td>
+                                        <td>Authority</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <small>0x789...012</small>
+                                        </td>
+                                        <td>Access Control</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <small>0x345...678</small>
+                                        </td>
+                                        <td>DoS Detector</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const refreshBtn = document.getElementById('refreshBtn');
+        
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', function() {
+                // Simuler une actualisation
+                const lastUpdate = document.getElementById('lastUpdate');
+                const now = new Date();
+                const timeStr = now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+                lastUpdate.textContent = 'Aujourd\'hui à ' + timeStr;
+                
+                // Afficher une notification
+                alert('Statut IOTA actualisé avec succès!');
+            });
+        }
+    });
+</script>
+{% endblock %}
