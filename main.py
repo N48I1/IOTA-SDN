@@ -1,17 +1,19 @@
 
 # add controller 1          :   0x7F53d082A31c065493A119800AE9B680a752b5F9 by IPS 
 # add Switch 1              :   0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 by IPS 
-# add switch 2              :   0xac7c33305CaAB6e53955876374B97ED6203AD1D7 by IPS 
+# add switch 2              :   0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 by IPS 
 # add switch 3              :   0x5eE1BEdd2E19DebFdD62eA57BDD1AcF8bf36C58A by IPS 
-# add addStandbyController  :                                              by IPS ##not used
+# add addStandbyController  :   0x52f68B8c1c11DF43eDF0b47ba20952FF5d299218 by IPS ##not used
 # add controller 2          :   0x52f68B8c1c11DF43eDF0b47ba20952FF5d299218 by IPS 
 
-# valid  certificate        :   0xD57c6a55439A61e8874160502f591bD1bf96DaFe
+# Access Contorll           :   0xC184836543aBd0B70ffb2A8083eEf57F829ACD62
+
+# valid  certificate        :   0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
 # revoke certificate        :   0x45191aa30986B3207C42102787f14f896AFB5554
 
 
 from topology1 import topology_1
-from topology2 import topology_2
+#from topology2 import topology_2
 import json
 from web3 import Web3
 from mininet.topo import Topo
@@ -22,28 +24,28 @@ from mininet.log import setLogLevel, info
 from mininet.link import Link, TCLink
 
 def check_certificate_validity():
-    my_address = "0xAdb5864087a93C0eA62f49ea3Ab747653e0387ea"
+    my_address = "0xC184836543aBd0B70ffb2A8083eEf57F829ACD62"    
     private_key = "7354d112f673e3dbc329479d91b8e97a6b77a327389dd946227a15360a67ccb6"
     print("Connexion to iota.network  : ",web3.is_connected())
 
     with open('abi/authority.json') as f:
         abi = json.load(f)   
 
-    address = "0x0Be1F0693de448713574cE71097A066b6788fa63"
+    address = "0x8859CEA6f5F0DF05252D132F2f0bae5fF73Ed90F"
     contract = web3.eth.contract(address=address, abi=abi)
     x = contract.functions.isCertificateValid(my_address).call()
     return x
 
 def check_access_Controller_to_switch():
     # Connect to your blockchain network
-    my_addresse = "0xac7c33305CaAB6e53955876374B97ED6203AD1D7"
+    my_addresse = "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
     private_key = "7354d112f673e3dbc329479d91b8e97a6b77a327389dd946227a15360a67ccb6"
     print("Connection to iota.network:", web3.is_connected())
     
     with open('abi/AccessControl.json') as f:
         abi = json.load(f)
 
-    address = "0x4BF6d3358537BB5d396f64eDD521bc9cE922ad97"
+    address = "0x217f3c3C1859Ae5CF316679Ac3831ECAD97eee08"
     contract = web3.eth.contract(address=address, abi=abi)
     
     # Function used by Devices to get access Control between Devices (controller 1 and switch 2):
@@ -61,11 +63,11 @@ def check_access_Switch_to_switch():
     with open('abi/AccessControl.json') as f:
         abi = json.load(f)
     
-    address = "0x4BF6d3358537BB5d396f64eDD521bc9cE922ad97"
+    address = "0x217f3c3C1859Ae5CF316679Ac3831ECAD97eee08"
     contract = web3.eth.contract(address=address, abi=abi)
     
     # Function used by Devices to get access Control betwen Devices (switch 1 and switch 2):
-    z = contract.functions.checkAccess('0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234','0xE422568F3C95990E5F58BE87B27F0804017b8697').call()    
+    z = contract.functions.checkAccess('0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234','0xac7c33305CaAB6e53955876374B97ED6203AD1D7').call()    
 
     print("Get access status between switch1 and switch2  : ",z) 
     return z
@@ -79,11 +81,11 @@ def check_access_Controller_to_contoller():
     with open('abi/AccessControl.json') as f:
         abi = json.load(f)
     
-    address = "0x4BF6d3358537BB5d396f64eDD521bc9cE922ad97"
+    address = "0x217f3c3C1859Ae5CF316679Ac3831ECAD97eee08"
     contract = web3.eth.contract(address=address, abi=abi)
     
     #Function used by Devices to get access Control betwen Devices (controller 1 and Controller 2):
-    y = contract.functions.checkAccessC('0x7F53d082A31c065493A119800AE9B680a752b5F9','0x52f68B8c1c11DF43eDF0b47ba20952FF5d299218').call()
+    y = contract.functions.checkAccess('0x7F53d082A31c065493A119800AE9B680a752b5F9','0x52f68B8c1c11DF43eDF0b47ba20952FF5d299218').call()
     
     print("Get access status between controller1 and Controller2  : ",y)
     return y
