@@ -1,0 +1,21 @@
+blockchain:
+  iota_evm_url: "https://json-rpc.evm.testnet.iotaledger.net/"
+  contract_address: "0x217f3c3C1859Ae5CF316679Ac3831ECAD97eee08"  # AccessControl Contract
+  authority_contract_address: "0x8859CEA6f5F0DF05252D132F2f0bae5fF73Ed90F"  # Authority Contract
+
+network:
+  sdn_authority: "0xC184836543aBd0B70ffb2A8083eEf57F829ACD62"
+  controller: "0x7F53d082A31c065493A119800AE9B680a752b5F9"
+  switch1: "0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234"
+  switch2: "0xac7c33305CaAB6e53955876374B97ED6203AD1D7"
+  controller_ip: "127.0.0.1"
+  controller_port: 6633
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "controller.log"
+
+blockchain_server:
+  host: "0.0.0.0"
+  port: 5000

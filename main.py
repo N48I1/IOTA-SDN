@@ -1,7 +1,8 @@
 
+
 # add controller 1          :   0x7F53d082A31c065493A119800AE9B680a752b5F9 by IPS 
 # add Switch 1              :   0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 by IPS 
-# add switch 2              :   0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 by IPS 
+# add switch 2              :   0xac7c33305CaAB6e53955876374B97ED6203AD1D7 by IPS 
 # add switch 3              :   0x5eE1BEdd2E19DebFdD62eA57BDD1AcF8bf36C58A by IPS 
 # add addStandbyController  :   0x52f68B8c1c11DF43eDF0b47ba20952FF5d299218 by IPS ##not used
 # add controller 2          :   0x52f68B8c1c11DF43eDF0b47ba20952FF5d299218 by IPS 
