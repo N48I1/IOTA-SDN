@@ -48,8 +48,8 @@ class Blockchain:
 
         # Load ABI files and initialize contracts
         try:
-            with open('AccessControl.json', 'r') as f:
-                self.access_control_abi = json.load(f)["abi"]
+            with open(r'abi/AccessControl.json', 'r') as f:
+                self.access_control_abi = json.load(f)
             self.access_control = self.web3.eth.contract(
                 address=self.web3.to_checksum_address(self.access_control_address),
                 abi=self.access_control_abi
@@ -63,15 +63,15 @@ class Blockchain:
             raise
 
         try:
-            with open('Authority.json', 'r') as f:
-                self.authority_abi = json.load(f)["abi"]
+            with open(r'abi/authority.json', 'r') as f:
+                self.authority_abi = json.load(f)
             self.authority_contract = self.web3.eth.contract(
                 address=self.web3.to_checksum_address(self.authority_contract_address),
                 abi=self.authority_abi
             )
             self.logger.info(f"Authority contract initialized at {self.authority_contract_address}")
         except FileNotFoundError:
-            self.logger.error("Authority.json not found. Make sure it's in the same directory.")
+            self.logger.error("authority.json not found. Make sure it's in the same directory.")
             raise
         except Exception as e:
             self.logger.error(f"Failed to load Authority ABI or initialize contract: {str(e)}")

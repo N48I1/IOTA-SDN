@@ -1,165 +1,354 @@
-2025-06-13 23:48:41,001 - blockchain_utils - INFO - Configuration loaded successfully from config.yml
-2025-06-13 23:48:41,002 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion
-2025-06-13 23:48:41,002 - web3._utils.http_session_manager.HTTPSessionManager - DEBUG - Session cached: https://json-rpc.evm.testnet.iotaledger.net/, <requests.sessions.Session object at 0x770b90f525d0>
-2025-06-13 23:48:41,003 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): json-rpc.evm.testnet.iotaledger.net:443
-2025-06-13 23:48:41,703 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:41,706 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion, Response: {'jsonrpc': '2.0', 'id': 0, 'result': 'wasp/evmproxy'}
-2025-06-13 23:48:41,706 - blockchain_utils - INFO - Connected to IOTA EVM successfully
-2025-06-13 23:48:41,712 - blockchain_utils - INFO - AccessControl contract initialized at 0x217f3c3C1859Ae5CF316679Ac3831ECAD97eee08
-2025-06-13 23:48:41,715 - blockchain_utils - INFO - Authority contract initialized at 0x8859CEA6f5F0DF05252D132F2f0bae5fF73Ed90F
-2025-06-13 23:48:41,715 - __main__ - INFO - Blockchain utility initialized successfully.
-2025-06-13 23:48:41,724 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+2025-06-14 04:32:26,311 - blockchain_utils - INFO - Configuration loaded successfully from config.yml
+2025-06-14 04:32:26,311 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion
+2025-06-14 04:32:26,311 - web3._utils.http_session_manager.HTTPSessionManager - DEBUG - Session cached: https://json-rpc.evm.testnet.iotaledger.net/, <requests.sessions.Session object at 0x7ce31d151c50>
+2025-06-14 04:32:26,312 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): json-rpc.evm.testnet.iotaledger.net:443
+2025-06-14 04:32:27,259 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:32:27,261 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion, Response: {'jsonrpc': '2.0', 'id': 0, 'result': 'wasp/evmproxy'}
+2025-06-14 04:32:27,261 - blockchain_utils - INFO - Connected to IOTA EVM successfully
+2025-06-14 04:32:27,278 - blockchain_utils - INFO - AccessControl contract initialized at 0x217f3c3C1859Ae5CF316679Ac3831ECAD97eee08
+2025-06-14 04:32:27,280 - blockchain_utils - INFO - Authority contract initialized at 0x8859CEA6f5F0DF05252D132F2f0bae5fF73Ed90F
+2025-06-14 04:32:27,280 - __main__ - INFO - Blockchain utility initialized successfully.
+2025-06-14 04:32:27,286 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on http://127.0.0.1:5000
-2025-06-13 23:48:41,724 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-06-13 23:48:47,158 - __main__ - DEBUG - Headers: Accept-Encoding: identity
-Host: localhost:5000
-User-Agent: Python-urllib/3.11
-Connection: close
+2025-06-14 04:32:27,286 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-14 04:33:01,349 - __main__ - DEBUG - Headers: Host: 127.0.0.1:5000
+User-Agent: python-requests/2.31.0
+Accept-Encoding: gzip, deflate, br
+Accept: */*
+Connection: keep-alive
 
 
-2025-06-13 23:48:47,158 - __main__ - DEBUG - Body: b''
-2025-06-13 23:48:47,159 - __main__ - INFO - Health check request received
-2025-06-13 23:48:47,159 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion
-2025-06-13 23:48:47,159 - web3._utils.http_session_manager.HTTPSessionManager - DEBUG - Session cached: https://json-rpc.evm.testnet.iotaledger.net/, <requests.sessions.Session object at 0x770b90f63810>
-2025-06-13 23:48:47,160 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): json-rpc.evm.testnet.iotaledger.net:443
-2025-06-13 23:48:47,624 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:47,625 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion, Response: {'jsonrpc': '2.0', 'id': 1, 'result': 'wasp/evmproxy'}
-2025-06-13 23:48:47,625 - __main__ - INFO - Health check: Blockchain is connected
-2025-06-13 23:48:47,626 - __main__ - DEBUG - Response: b'{"status":"running","web3_connected":true}\n'
-2025-06-13 23:48:47,626 - werkzeug - INFO - 127.0.0.1 - - [13/Jun/2025 23:48:47] "GET /health HTTP/1.1" 200 -
-2025-06-13 23:48:47,629 - __main__ - DEBUG - Headers: Accept-Encoding: identity
-Host: localhost:5000
-User-Agent: Python-urllib/3.11
-Connection: close
-
-
-2025-06-13 23:48:47,630 - __main__ - DEBUG - Body: b''
-2025-06-13 23:48:47,630 - __main__ - INFO - Access check request received: 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 -> 0xac7c33305CaAB6e53955876374B97ED6203AD1D7
-2025-06-13 23:48:47,635 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
-2025-06-13 23:48:47,637 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
-2025-06-13 23:48:47,637 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
-2025-06-13 23:48:47,768 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:47,769 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 2, 'result': '0x433'}
-2025-06-13 23:48:47,770 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
-2025-06-13 23:48:48,217 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:48,217 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 3, 'result': '0x0000000000000000000000000000000000000000000000000000000000000000'}
-2025-06-13 23:48:48,217 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
-2025-06-13 23:48:48,217 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
-2025-06-13 23:48:48,349 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:48,349 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 4, 'result': '0x433'}
-2025-06-13 23:48:48,350 - blockchain_utils - INFO - Access check from 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 to 0xac7c33305CaAB6e53955876374B97ED6203AD1D7: False
-2025-06-13 23:48:48,350 - __main__ - INFO - Access check result: 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 -> 0xac7c33305CaAB6e53955876374B97ED6203AD1D7 = False
-2025-06-13 23:48:48,350 - __main__ - DEBUG - Response: b'{"access_granted":false,"source":"0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234","target":"0xac7c33305CaAB6e53955876374B97ED6203AD1D7"}\n'
-2025-06-13 23:48:48,351 - werkzeug - INFO - 127.0.0.1 - - [13/Jun/2025 23:48:48] "GET /check_access/0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234/0xac7c33305CaAB6e53955876374B97ED6203AD1D7 HTTP/1.1" 200 -
-2025-06-13 23:48:48,352 - __main__ - DEBUG - Headers: Accept-Encoding: identity
-Host: localhost:5000
-User-Agent: Python-urllib/3.11
-Connection: close
-
-
-2025-06-13 23:48:48,352 - __main__ - DEBUG - Body: b''
-2025-06-13 23:48:48,352 - __main__ - INFO - Certificate check request received for address: 0xC184836543aBd0B70ffb2A8083eEf57F829ACD62
-2025-06-13 23:48:48,354 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
-2025-06-13 23:48:48,354 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
-2025-06-13 23:48:48,354 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
-2025-06-13 23:48:48,493 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:48,494 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 5, 'result': '0x433'}
-2025-06-13 23:48:48,494 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
-2025-06-13 23:48:48,650 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:48,650 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 6, 'result': '0x0000000000000000000000000000000000000000000000000000000000000001'}
-2025-06-13 23:48:48,650 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
-2025-06-13 23:48:48,650 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
-2025-06-13 23:48:48,779 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:48,780 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 7, 'result': '0x433'}
-2025-06-13 23:48:48,782 - blockchain_utils - INFO - Certificate validity check for 0xC184836543aBd0B70ffb2A8083eEf57F829ACD62: True
-2025-06-13 23:48:48,782 - __main__ - INFO - Certificate check result for 0xC184836543aBd0B70ffb2A8083eEf57F829ACD62: True
-2025-06-13 23:48:48,783 - __main__ - DEBUG - Response: b'{"address":"0xC184836543aBd0B70ffb2A8083eEf57F829ACD62","certificate_valid":true}\n'
-2025-06-13 23:48:48,783 - werkzeug - INFO - 127.0.0.1 - - [13/Jun/2025 23:48:48] "GET /check_certificate/0xC184836543aBd0B70ffb2A8083eEf57F829ACD62 HTTP/1.1" 200 -
-2025-06-13 23:48:48,786 - __main__ - DEBUG - Headers: Accept-Encoding: identity
-Host: localhost:5000
-User-Agent: Python-urllib/3.11
-Connection: close
-
-
-2025-06-13 23:48:48,786 - __main__ - DEBUG - Body: b''
-2025-06-13 23:48:48,786 - __main__ - INFO - Check all request received
-2025-06-13 23:48:48,789 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
-2025-06-13 23:48:48,790 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
-2025-06-13 23:48:48,790 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
-2025-06-13 23:48:48,951 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:48,952 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 8, 'result': '0x433'}
-2025-06-13 23:48:48,953 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
-2025-06-13 23:48:49,073 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:49,074 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 9, 'result': '0x0000000000000000000000000000000000000000000000000000000000000001'}
-2025-06-13 23:48:49,074 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
-2025-06-13 23:48:49,075 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
-2025-06-13 23:48:49,188 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:49,189 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 10, 'result': '0x433'}
-2025-06-13 23:48:49,191 - blockchain_utils - INFO - Certificate validity check for 0xC184836543aBd0B70ffb2A8083eEf57F829ACD62: True
-2025-06-13 23:48:49,194 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
-2025-06-13 23:48:49,194 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
-2025-06-13 23:48:49,194 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
-2025-06-13 23:48:49,319 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:49,321 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 11, 'result': '0x433'}
-2025-06-13 23:48:49,323 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
-2025-06-13 23:48:49,448 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:49,450 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 12, 'result': '0x0000000000000000000000000000000000000000000000000000000000000001'}
-2025-06-13 23:48:49,451 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
-2025-06-13 23:48:49,451 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
-2025-06-13 23:48:49,571 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:49,573 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 13, 'result': '0x433'}
-2025-06-13 23:48:49,575 - blockchain_utils - INFO - Access check from 0x7F53d082A31c065493A119800AE9B680a752b5F9 to 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234: True
-2025-06-13 23:48:49,577 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
-2025-06-13 23:48:49,578 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
-2025-06-13 23:48:49,578 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
-2025-06-13 23:48:49,708 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:49,709 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 14, 'result': '0x433'}
-2025-06-13 23:48:49,710 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
-2025-06-13 23:48:49,833 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:49,835 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 15, 'result': '0x0000000000000000000000000000000000000000000000000000000000000000'}
-2025-06-13 23:48:49,835 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
-2025-06-13 23:48:49,836 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
-2025-06-13 23:48:50,061 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:48:50,063 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 16, 'result': '0x433'}
-2025-06-13 23:48:50,065 - blockchain_utils - INFO - Access check from 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 to 0xac7c33305CaAB6e53955876374B97ED6203AD1D7: False
-2025-06-13 23:48:50,065 - __main__ - INFO - Check all results: cert_valid=True, controller_to_switch=True, switch_to_switch=False
-2025-06-13 23:48:50,066 - __main__ - DEBUG - Response: b'{"addresses":{"controller":"0x7F53d082A31c065493A119800AE9B680a752b5F9","controller_ip":"127.0.0.1","controller_port":6633,"sdn_authority":"0xC184836543aBd0B70ffb2A8083eEf57F829ACD62","switch1":"0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234","switch2":"0xac7c33305CaAB6e53955876374B97ED6203AD1D7"},"certificate_valid":true,"controller_to_switch1":true,"switch1_to_switch2":false}\n'
-2025-06-13 23:48:50,067 - werkzeug - INFO - 127.0.0.1 - - [13/Jun/2025 23:48:50] "GET /check_all HTTP/1.1" 200 -
-2025-06-13 23:49:00,645 - __main__ - DEBUG - Headers: Accept-Encoding: identity
+2025-06-14 04:33:01,349 - __main__ - DEBUG - Body: b''
+2025-06-14 04:33:01,349 - __main__ - INFO - Health check request received
+2025-06-14 04:33:01,349 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion
+2025-06-14 04:33:01,350 - web3._utils.http_session_manager.HTTPSessionManager - DEBUG - Session cached: https://json-rpc.evm.testnet.iotaledger.net/, <requests.sessions.Session object at 0x7ce31d160290>
+2025-06-14 04:33:01,351 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): json-rpc.evm.testnet.iotaledger.net:443
+2025-06-14 04:33:03,497 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:03,499 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion, Response: {'jsonrpc': '2.0', 'id': 1, 'result': 'wasp/evmproxy'}
+2025-06-14 04:33:03,499 - __main__ - INFO - Health check: Blockchain is connected
+2025-06-14 04:33:03,500 - __main__ - DEBUG - Response: b'{"status":"running","web3_connected":true}\n'
+2025-06-14 04:33:03,500 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:33:03] "GET /health HTTP/1.1" 200 -
+2025-06-14 04:33:03,785 - __main__ - DEBUG - Headers: Accept-Encoding: identity
 Host: 127.0.0.1:5000
 User-Agent: Python-urllib/3.9
 Connection: close
 
 
-2025-06-13 23:49:00,645 - __main__ - DEBUG - Body: b''
-2025-06-13 23:49:00,645 - __main__ - INFO - Health check request received
-2025-06-13 23:49:00,645 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion
-2025-06-13 23:49:00,888 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:49:00,889 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion, Response: {'jsonrpc': '2.0', 'id': 17, 'result': 'wasp/evmproxy'}
-2025-06-13 23:49:00,889 - __main__ - INFO - Health check: Blockchain is connected
-2025-06-13 23:49:00,890 - __main__ - DEBUG - Response: b'{"status":"running","web3_connected":true}\n'
-2025-06-13 23:49:00,890 - werkzeug - INFO - 127.0.0.1 - - [13/Jun/2025 23:49:00] "GET /health HTTP/1.1" 200 -
-2025-06-13 23:49:03,650 - __main__ - DEBUG - Headers: Accept-Encoding: identity
+2025-06-14 04:33:03,785 - __main__ - DEBUG - Body: b''
+2025-06-14 04:33:03,785 - __main__ - INFO - Health check request received
+2025-06-14 04:33:03,785 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion
+2025-06-14 04:33:03,907 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:03,908 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion, Response: {'jsonrpc': '2.0', 'id': 2, 'result': 'wasp/evmproxy'}
+2025-06-14 04:33:03,908 - __main__ - INFO - Health check: Blockchain is connected
+2025-06-14 04:33:03,909 - __main__ - DEBUG - Response: b'{"status":"running","web3_connected":true}\n'
+2025-06-14 04:33:03,909 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:33:03] "GET /health HTTP/1.1" 200 -
+2025-06-14 04:33:05,950 - __main__ - DEBUG - Headers: Accept-Encoding: identity
 Host: 127.0.0.1:5000
 User-Agent: Python-urllib/3.9
 Connection: close
 
 
-2025-06-13 23:49:03,650 - __main__ - DEBUG - Body: b''
-2025-06-13 23:49:03,650 - __main__ - INFO - Certificate check request received for address: 0xac7c33305CaAB6e53955876374B97ED6203AD1D7
-2025-06-13 23:49:03,652 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
-2025-06-13 23:49:03,652 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
-2025-06-13 23:49:03,652 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
-2025-06-13 23:49:03,811 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:49:03,812 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 18, 'result': '0x433'}
-2025-06-13 23:49:03,814 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
-2025-06-13 23:49:04,248 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:49:04,249 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 19, 'error': {'code': 3, 'message': 'execution reverted: Certificat non enregistre', 'data': '0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001943657274696669636174206e6f6e20656e726567697374726500000000000000'}}
-2025-06-13 23:49:04,249 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
-2025-06-13 23:49:04,250 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
-2025-06-13 23:49:04,611 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
-2025-06-13 23:49:04,612 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 20, 'result': '0x433'}
-2025-06-13 23:49:04,613 - blockchain_utils - ERROR - Error checking certificate validity for 0xac7c33305CaAB6e53955876374B97ED6203AD1D7: ('execution reverted: Certificat non enregistre', '0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001943657274696669636174206e6f6e20656e726567697374726500000000000000')
-2025-06-13 23:49:04,613 - __main__ - INFO - Certificate check result for 0xac7c33305CaAB6e53955876374B97ED6203AD1D7: False
-2025-06-13 23:49:04,614 - __main__ - DEBUG - Response: b'{"address":"0xac7c33305CaAB6e53955876374B97ED6203AD1D7","certificate_valid":false}\n'
-2025-06-13 23:49:04,614 - werkzeug - INFO - 127.0.0.1 - - [13/Jun/2025 23:49:04] "GET /check_certificate/0xac7c33305CaAB6e53955876374B97ED6203AD1D7 HTTP/1.1" 200 -
+2025-06-14 04:33:05,950 - __main__ - DEBUG - Body: b''
+2025-06-14 04:33:05,950 - __main__ - INFO - Certificate check request received for address: 0xac7c33305CaAB6e53955876374B97ED6203AD1D7
+2025-06-14 04:33:05,958 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:33:05,960 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:05,960 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:06,157 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:06,158 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 3, 'result': '0x433'}
+2025-06-14 04:33:06,158 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:33:06,296 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:06,297 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 4, 'error': {'code': 3, 'message': 'execution reverted: Certificat non enregistre', 'data': '0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001943657274696669636174206e6f6e20656e726567697374726500000000000000'}}
+2025-06-14 04:33:06,297 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:06,297 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:06,418 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:06,419 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 5, 'result': '0x433'}
+2025-06-14 04:33:06,419 - blockchain_utils - ERROR - Error checking certificate validity for 0xac7c33305CaAB6e53955876374B97ED6203AD1D7: ('execution reverted: Certificat non enregistre', '0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001943657274696669636174206e6f6e20656e726567697374726500000000000000')
+2025-06-14 04:33:06,419 - __main__ - INFO - Certificate check result for 0xac7c33305CaAB6e53955876374B97ED6203AD1D7: False
+2025-06-14 04:33:06,419 - __main__ - DEBUG - Response: b'{"address":"0xac7c33305CaAB6e53955876374B97ED6203AD1D7","certificate_valid":false}\n'
+2025-06-14 04:33:06,420 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:33:06] "GET /check_certificate/0xac7c33305CaAB6e53955876374B97ED6203AD1D7 HTTP/1.1" 200 -
+2025-06-14 04:33:10,952 - __main__ - DEBUG - Headers: Host: 127.0.0.1:5000
+User-Agent: python-requests/2.31.0
+Accept-Encoding: gzip, deflate, br
+Accept: */*
+Connection: keep-alive
+
+
+2025-06-14 04:33:10,952 - __main__ - DEBUG - Body: b''
+2025-06-14 04:33:10,952 - __main__ - INFO - Certificate check request received for address: 0xC184836543aBd0B70ffb2A8083eEf57F829ACD62
+2025-06-14 04:33:10,956 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:33:10,956 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:10,957 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:11,516 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:11,518 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 6, 'result': '0x433'}
+2025-06-14 04:33:11,519 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:33:12,174 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:12,175 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 7, 'result': '0x0000000000000000000000000000000000000000000000000000000000000001'}
+2025-06-14 04:33:12,175 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:12,175 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:12,828 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:12,829 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 8, 'result': '0x433'}
+2025-06-14 04:33:12,832 - blockchain_utils - INFO - Certificate validity check for 0xC184836543aBd0B70ffb2A8083eEf57F829ACD62: True
+2025-06-14 04:33:12,832 - __main__ - INFO - Certificate check result for 0xC184836543aBd0B70ffb2A8083eEf57F829ACD62: True
+2025-06-14 04:33:12,833 - __main__ - DEBUG - Response: b'{"address":"0xC184836543aBd0B70ffb2A8083eEf57F829ACD62","certificate_valid":true}\n'
+2025-06-14 04:33:12,833 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:33:12] "GET /check_certificate/0xC184836543aBd0B70ffb2A8083eEf57F829ACD62 HTTP/1.1" 200 -
+2025-06-14 04:33:12,843 - __main__ - DEBUG - Headers: Host: 127.0.0.1:5000
+User-Agent: python-requests/2.31.0
+Accept-Encoding: gzip, deflate, br
+Accept: */*
+Connection: keep-alive
+
+
+2025-06-14 04:33:12,843 - __main__ - DEBUG - Body: b''
+2025-06-14 04:33:12,844 - __main__ - INFO - Access check request received: 0x7F53d082A31c065493A119800AE9B680a752b5F9 -> 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234
+2025-06-14 04:33:12,847 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:33:12,848 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:12,848 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:14,383 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:14,383 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 9, 'result': '0x433'}
+2025-06-14 04:33:14,385 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:33:14,793 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:14,794 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 10, 'result': '0x0000000000000000000000000000000000000000000000000000000000000001'}
+2025-06-14 04:33:14,794 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:14,794 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:15,104 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:15,105 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 11, 'result': '0x433'}
+2025-06-14 04:33:15,106 - blockchain_utils - INFO - Access check from 0x7F53d082A31c065493A119800AE9B680a752b5F9 to 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234: True
+2025-06-14 04:33:15,106 - __main__ - INFO - Access check result: 0x7F53d082A31c065493A119800AE9B680a752b5F9 -> 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 = True
+2025-06-14 04:33:15,107 - __main__ - DEBUG - Response: b'{"access_granted":true,"source":"0x7F53d082A31c065493A119800AE9B680a752b5F9","target":"0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234"}\n'
+2025-06-14 04:33:15,107 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:33:15] "GET /check_access/0x7F53d082A31c065493A119800AE9B680a752b5F9/0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 HTTP/1.1" 200 -
+2025-06-14 04:33:15,112 - __main__ - DEBUG - Headers: Host: 127.0.0.1:5000
+User-Agent: python-requests/2.31.0
+Accept-Encoding: gzip, deflate, br
+Accept: */*
+Connection: keep-alive
+
+
+2025-06-14 04:33:15,113 - __main__ - DEBUG - Body: b''
+2025-06-14 04:33:15,113 - __main__ - INFO - Access check request received: 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 -> 0x7F53d082A31c065493A119800AE9B680a752b5F9
+2025-06-14 04:33:15,117 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:33:15,118 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:15,118 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:15,276 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:15,277 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 12, 'result': '0x433'}
+2025-06-14 04:33:15,278 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:33:16,311 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:16,312 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 13, 'result': '0x0000000000000000000000000000000000000000000000000000000000000000'}
+2025-06-14 04:33:16,313 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:16,313 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:16,435 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:16,436 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 14, 'result': '0x433'}
+2025-06-14 04:33:16,437 - blockchain_utils - INFO - Access check from 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 to 0x7F53d082A31c065493A119800AE9B680a752b5F9: False
+2025-06-14 04:33:16,437 - __main__ - INFO - Access check result: 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 -> 0x7F53d082A31c065493A119800AE9B680a752b5F9 = False
+2025-06-14 04:33:16,437 - __main__ - DEBUG - Response: b'{"access_granted":false,"source":"0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234","target":"0x7F53d082A31c065493A119800AE9B680a752b5F9"}\n'
+2025-06-14 04:33:16,438 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:33:16] "GET /check_access/0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234/0x7F53d082A31c065493A119800AE9B680a752b5F9 HTTP/1.1" 200 -
+2025-06-14 04:33:16,442 - __main__ - DEBUG - Headers: Host: 127.0.0.1:5000
+User-Agent: python-requests/2.31.0
+Accept-Encoding: gzip, deflate, br
+Accept: */*
+Connection: keep-alive
+
+
+2025-06-14 04:33:16,443 - __main__ - DEBUG - Body: b''
+2025-06-14 04:33:16,443 - __main__ - INFO - Access check request received: 0x7F53d082A31c065493A119800AE9B680a752b5F9 -> 0xac7c33305CaAB6e53955876374B97ED6203AD1D7
+2025-06-14 04:33:16,448 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:33:16,449 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:16,450 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:16,611 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:16,612 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 15, 'result': '0x433'}
+2025-06-14 04:33:16,613 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:33:16,759 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:16,760 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 16, 'result': '0x0000000000000000000000000000000000000000000000000000000000000000'}
+2025-06-14 04:33:16,760 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:16,760 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:16,898 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:16,899 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 17, 'result': '0x433'}
+2025-06-14 04:33:16,901 - blockchain_utils - INFO - Access check from 0x7F53d082A31c065493A119800AE9B680a752b5F9 to 0xac7c33305CaAB6e53955876374B97ED6203AD1D7: False
+2025-06-14 04:33:16,901 - __main__ - INFO - Access check result: 0x7F53d082A31c065493A119800AE9B680a752b5F9 -> 0xac7c33305CaAB6e53955876374B97ED6203AD1D7 = False
+2025-06-14 04:33:16,901 - __main__ - DEBUG - Response: b'{"access_granted":false,"source":"0x7F53d082A31c065493A119800AE9B680a752b5F9","target":"0xac7c33305CaAB6e53955876374B97ED6203AD1D7"}\n'
+2025-06-14 04:33:16,901 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:33:16] "GET /check_access/0x7F53d082A31c065493A119800AE9B680a752b5F9/0xac7c33305CaAB6e53955876374B97ED6203AD1D7 HTTP/1.1" 200 -
+2025-06-14 04:33:16,907 - __main__ - DEBUG - Headers: Host: 127.0.0.1:5000
+User-Agent: python-requests/2.31.0
+Accept-Encoding: gzip, deflate, br
+Accept: */*
+Connection: keep-alive
+
+
+2025-06-14 04:33:16,908 - __main__ - DEBUG - Body: b''
+2025-06-14 04:33:16,908 - __main__ - INFO - Access check request received: 0xac7c33305CaAB6e53955876374B97ED6203AD1D7 -> 0x7F53d082A31c065493A119800AE9B680a752b5F9
+2025-06-14 04:33:16,912 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:33:16,913 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:16,913 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:17,044 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:17,045 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 18, 'result': '0x433'}
+2025-06-14 04:33:17,046 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:33:17,182 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:17,182 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 19, 'result': '0x0000000000000000000000000000000000000000000000000000000000000000'}
+2025-06-14 04:33:17,183 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:17,183 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:17,305 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:17,306 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 20, 'result': '0x433'}
+2025-06-14 04:33:17,308 - blockchain_utils - INFO - Access check from 0xac7c33305CaAB6e53955876374B97ED6203AD1D7 to 0x7F53d082A31c065493A119800AE9B680a752b5F9: False
+2025-06-14 04:33:17,308 - __main__ - INFO - Access check result: 0xac7c33305CaAB6e53955876374B97ED6203AD1D7 -> 0x7F53d082A31c065493A119800AE9B680a752b5F9 = False
+2025-06-14 04:33:17,308 - __main__ - DEBUG - Response: b'{"access_granted":false,"source":"0xac7c33305CaAB6e53955876374B97ED6203AD1D7","target":"0x7F53d082A31c065493A119800AE9B680a752b5F9"}\n'
+2025-06-14 04:33:17,309 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:33:17] "GET /check_access/0xac7c33305CaAB6e53955876374B97ED6203AD1D7/0x7F53d082A31c065493A119800AE9B680a752b5F9 HTTP/1.1" 200 -
+2025-06-14 04:33:17,314 - __main__ - DEBUG - Headers: Host: 127.0.0.1:5000
+User-Agent: python-requests/2.31.0
+Accept-Encoding: gzip, deflate, br
+Accept: */*
+Connection: keep-alive
+
+
+2025-06-14 04:33:17,314 - __main__ - DEBUG - Body: b''
+2025-06-14 04:33:17,315 - __main__ - INFO - Access check request received: 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 -> 0xac7c33305CaAB6e53955876374B97ED6203AD1D7
+2025-06-14 04:33:17,318 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:33:17,318 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:17,318 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:17,452 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:17,452 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 21, 'result': '0x433'}
+2025-06-14 04:33:17,453 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:33:17,601 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:17,601 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 22, 'result': '0x0000000000000000000000000000000000000000000000000000000000000000'}
+2025-06-14 04:33:17,601 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:17,601 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:17,735 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:17,735 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 23, 'result': '0x433'}
+2025-06-14 04:33:17,736 - blockchain_utils - INFO - Access check from 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 to 0xac7c33305CaAB6e53955876374B97ED6203AD1D7: False
+2025-06-14 04:33:17,737 - __main__ - INFO - Access check result: 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 -> 0xac7c33305CaAB6e53955876374B97ED6203AD1D7 = False
+2025-06-14 04:33:17,737 - __main__ - DEBUG - Response: b'{"access_granted":false,"source":"0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234","target":"0xac7c33305CaAB6e53955876374B97ED6203AD1D7"}\n'
+2025-06-14 04:33:17,737 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:33:17] "GET /check_access/0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234/0xac7c33305CaAB6e53955876374B97ED6203AD1D7 HTTP/1.1" 200 -
+2025-06-14 04:33:17,741 - __main__ - DEBUG - Headers: Host: 127.0.0.1:5000
+User-Agent: python-requests/2.31.0
+Accept-Encoding: gzip, deflate, br
+Accept: */*
+Connection: keep-alive
+
+
+2025-06-14 04:33:17,742 - __main__ - DEBUG - Body: b''
+2025-06-14 04:33:17,742 - __main__ - INFO - Access check request received: 0xac7c33305CaAB6e53955876374B97ED6203AD1D7 -> 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234
+2025-06-14 04:33:17,745 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:33:17,746 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:17,746 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:17,933 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:17,934 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 24, 'result': '0x433'}
+2025-06-14 04:33:17,935 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:33:18,084 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:18,089 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 25, 'result': '0x0000000000000000000000000000000000000000000000000000000000000000'}
+2025-06-14 04:33:18,089 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:33:18,089 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:33:18,426 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:33:18,427 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 26, 'result': '0x433'}
+2025-06-14 04:33:18,429 - blockchain_utils - INFO - Access check from 0xac7c33305CaAB6e53955876374B97ED6203AD1D7 to 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234: False
+2025-06-14 04:33:18,429 - __main__ - INFO - Access check result: 0xac7c33305CaAB6e53955876374B97ED6203AD1D7 -> 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 = False
+2025-06-14 04:33:18,429 - __main__ - DEBUG - Response: b'{"access_granted":false,"source":"0xac7c33305CaAB6e53955876374B97ED6203AD1D7","target":"0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234"}\n'
+2025-06-14 04:33:18,430 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:33:18] "GET /check_access/0xac7c33305CaAB6e53955876374B97ED6203AD1D7/0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 HTTP/1.1" 200 -
+2025-06-14 04:39:00,856 - __main__ - DEBUG - Headers: Accept-Encoding: identity
+Host: localhost:5000
+User-Agent: Python-urllib/3.11
+Connection: close
+
+
+2025-06-14 04:39:00,856 - __main__ - DEBUG - Body: b''
+2025-06-14 04:39:00,856 - __main__ - INFO - Health check request received
+2025-06-14 04:39:00,856 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: web3_clientVersion
+2025-06-14 04:39:30,880 - __main__ - WARNING - Health check: Blockchain is not connected
+2025-06-14 04:39:30,881 - __main__ - DEBUG - Response: b'{"message":"Blockchain connection not established or failed during initialization.","status":"degraded","web3_connected":false}\n'
+2025-06-14 04:39:30,882 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:39:30] "[35m[1mGET /health HTTP/1.1[0m" 503 -
+2025-06-14 04:39:30,886 - __main__ - DEBUG - Headers: Accept-Encoding: identity
+Host: localhost:5000
+User-Agent: Python-urllib/3.11
+Connection: close
+
+
+2025-06-14 04:39:30,887 - __main__ - DEBUG - Body: b''
+2025-06-14 04:39:30,887 - __main__ - INFO - Certificate check request received for address: 0xC184836543aBd0B70ffb2A8083eEf57F829ACD62
+2025-06-14 04:39:30,890 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:39:30,891 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:39:30,891 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:39:30,893 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (2): json-rpc.evm.testnet.iotaledger.net:443
+2025-06-14 04:39:31,830 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:31,832 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 28, 'result': '0x433'}
+2025-06-14 04:39:31,834 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:39:31,967 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:31,969 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 29, 'result': '0x0000000000000000000000000000000000000000000000000000000000000001'}
+2025-06-14 04:39:31,969 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:39:31,969 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:39:32,094 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:32,095 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 30, 'result': '0x433'}
+2025-06-14 04:39:32,097 - blockchain_utils - INFO - Certificate validity check for 0xC184836543aBd0B70ffb2A8083eEf57F829ACD62: True
+2025-06-14 04:39:32,097 - __main__ - INFO - Certificate check result for 0xC184836543aBd0B70ffb2A8083eEf57F829ACD62: True
+2025-06-14 04:39:32,097 - __main__ - DEBUG - Response: b'{"address":"0xC184836543aBd0B70ffb2A8083eEf57F829ACD62","certificate_valid":true}\n'
+2025-06-14 04:39:32,098 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:39:32] "GET /check_certificate/0xC184836543aBd0B70ffb2A8083eEf57F829ACD62 HTTP/1.1" 200 -
+2025-06-14 04:39:32,104 - __main__ - DEBUG - Headers: Accept-Encoding: identity
+Host: localhost:5000
+User-Agent: Python-urllib/3.11
+Connection: close
+
+
+2025-06-14 04:39:32,104 - __main__ - DEBUG - Body: b''
+2025-06-14 04:39:32,105 - __main__ - INFO - Access check request received: 0x7F53d082A31c065493A119800AE9B680a752b5F9 -> 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234
+2025-06-14 04:39:32,108 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:39:32,108 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:39:32,109 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:39:32,230 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:32,231 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 31, 'result': '0x433'}
+2025-06-14 04:39:32,232 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:39:32,368 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:32,369 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 32, 'result': '0x0000000000000000000000000000000000000000000000000000000000000001'}
+2025-06-14 04:39:32,369 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:39:32,369 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:39:32,491 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:32,492 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 33, 'result': '0x433'}
+2025-06-14 04:39:32,492 - blockchain_utils - INFO - Access check from 0x7F53d082A31c065493A119800AE9B680a752b5F9 to 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234: True
+2025-06-14 04:39:32,493 - __main__ - INFO - Access check result: 0x7F53d082A31c065493A119800AE9B680a752b5F9 -> 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 = True
+2025-06-14 04:39:32,493 - __main__ - DEBUG - Response: b'{"access_granted":true,"source":"0x7F53d082A31c065493A119800AE9B680a752b5F9","target":"0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234"}\n'
+2025-06-14 04:39:32,493 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:39:32] "GET /check_access/0x7F53d082A31c065493A119800AE9B680a752b5F9/0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 HTTP/1.1" 200 -
+2025-06-14 04:39:32,494 - __main__ - DEBUG - Headers: Accept-Encoding: identity
+Host: localhost:5000
+User-Agent: Python-urllib/3.11
+Connection: close
+
+
+2025-06-14 04:39:32,494 - __main__ - DEBUG - Body: b''
+2025-06-14 04:39:32,494 - __main__ - INFO - Check all request received
+2025-06-14 04:39:32,496 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:39:32,496 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:39:32,496 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:39:32,624 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:32,625 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 34, 'result': '0x433'}
+2025-06-14 04:39:32,626 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:39:32,798 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:32,799 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 35, 'result': '0x0000000000000000000000000000000000000000000000000000000000000001'}
+2025-06-14 04:39:32,799 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:39:32,799 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:39:32,941 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:32,942 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 36, 'result': '0x433'}
+2025-06-14 04:39:32,943 - blockchain_utils - INFO - Certificate validity check for 0xC184836543aBd0B70ffb2A8083eEf57F829ACD62: True
+2025-06-14 04:39:32,948 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:39:32,948 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:39:32,949 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:39:33,070 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:33,072 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 37, 'result': '0x433'}
+2025-06-14 04:39:33,072 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:39:33,202 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:33,203 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 38, 'result': '0x0000000000000000000000000000000000000000000000000000000000000001'}
+2025-06-14 04:39:33,203 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:39:33,204 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:39:33,330 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:33,332 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 39, 'result': '0x433'}
+2025-06-14 04:39:33,334 - blockchain_utils - INFO - Access check from 0x7F53d082A31c065493A119800AE9B680a752b5F9 to 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234: True
+2025-06-14 04:39:33,340 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_call
+2025-06-14 04:39:33,340 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:39:33,340 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:39:33,489 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:33,490 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 40, 'result': '0x433'}
+2025-06-14 04:39:33,491 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call
+2025-06-14 04:39:33,621 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:33,622 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_call, Response: {'jsonrpc': '2.0', 'id': 41, 'result': '0x0000000000000000000000000000000000000000000000000000000000000000'}
+2025-06-14 04:39:33,623 - web3.manager.RequestManager - DEBUG - Making request. Method: eth_chainId
+2025-06-14 04:39:33,623 - web3.providers.HTTPProvider - DEBUG - Making request HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId
+2025-06-14 04:39:33,759 - urllib3.connectionpool - DEBUG - https://json-rpc.evm.testnet.iotaledger.net:443 "POST / HTTP/1.1" 200 None
+2025-06-14 04:39:33,760 - web3.providers.HTTPProvider - DEBUG - Getting response HTTP. URI: https://json-rpc.evm.testnet.iotaledger.net/, Method: eth_chainId, Response: {'jsonrpc': '2.0', 'id': 42, 'result': '0x433'}
+2025-06-14 04:39:33,761 - blockchain_utils - INFO - Access check from 0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234 to 0xac7c33305CaAB6e53955876374B97ED6203AD1D7: False
+2025-06-14 04:39:33,761 - __main__ - INFO - Check all results: cert_valid=True, controller_to_switch=True, switch_to_switch=False
+2025-06-14 04:39:33,762 - __main__ - DEBUG - Response: b'{"addresses":{"controller":"0x7F53d082A31c065493A119800AE9B680a752b5F9","controller_ip":"127.0.0.1","controller_port":6633,"sdn_authority":"0xC184836543aBd0B70ffb2A8083eEf57F829ACD62","switch1":"0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234","switch2":"0xac7c33305CaAB6e53955876374B97ED6203AD1D7"},"certificate_valid":true,"controller_to_switch1":true,"switch1_to_switch2":false}\n'
+2025-06-14 04:39:33,762 - werkzeug - INFO - 127.0.0.1 - - [14/Jun/2025 04:39:33] "GET /check_all HTTP/1.1" 200 -
