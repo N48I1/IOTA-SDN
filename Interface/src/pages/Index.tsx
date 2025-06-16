@@ -281,37 +281,15 @@ const Index = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               <div className="lg:col-span-2">
-                <Card className="blockchain-card h-full">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-lg">Network Topology</CardTitle>
+                <Card className="blockchain-card h-full flex flex-col">
+                  <CardHeader>
+                    <CardTitle className="text-xl font-semibold">Network Topology</CardTitle>
                     <CardDescription>
-                      Software-Defined Network with access control status
+                      Visual representation of the network structure and connections
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <NetworkTopologyView topology={topology} />
-                    <div className="flex items-center justify-center gap-6 mt-4">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                        <span className="text-xs">Controller</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-violet-500"></div>
-                        <span className="text-xs">Switch</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-                        <span className="text-xs">Host</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-1 bg-green-500"></div>
-                        <span className="text-xs">Valid Access</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-1 bg-red-500"></div>
-                        <span className="text-xs">Invalid Access</span>
-                      </div>
-                    </div>
+                  <CardContent className="flex-grow flex items-center justify-center p-0">
+                    <NetworkTopologyView topology={topology} className="w-full h-full" />
                   </CardContent>
                 </Card>
               </div>
@@ -397,7 +375,7 @@ const Index = () => {
             </div>
           </main>
 
-          <footer className="py-6 border-t">
+          <footer className="py-6 border-t border-border bg-card mt-8">
             <div className="container mx-auto px-4">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="text-sm text-muted-foreground">

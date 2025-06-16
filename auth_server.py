@@ -130,6 +130,45 @@ def to_checksum_address_safe(address):
             return None
     return None
 
+def send_signed_transaction(function_call, private_key, nonce=None):
+    try:
+        if not w3.is_connected():
+            return {"status": "error", "message": "Not connected to blockchain provider."}
+
+        owner_account = w3.eth.account.from_key(private_key)
+        
+        if nonce is None:
+            nonce = w3.eth.get_transaction_count(owner_account.address)
+
+        # Estimate gas for the transaction
+        # Ensure that the owner_account.address is used as 'from' address for gas estimation
+        estimated_gas = function_call.estimate_gas({'from': owner_account.address})
+        
+        # Build transaction
+        transaction = function_call.build_transaction({
+            'from': owner_account.address,
+            'nonce': nonce,
+            'gas': estimated_gas, # Use estimated gas
+            'gasPrice': w3.eth.gas_price
+        })
+
+        # Sign transaction
+        signed_txn = w3.eth.account.sign_transaction(transaction, private_key)
+
+        # Send transaction
+        tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+        
+        # Wait for transaction receipt
+        tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+
+        if tx_receipt.status == 1:
+            return {"status": "success", "transactionHash": tx_hash.hex()}
+        else:
+            return {"status": "error", "message": "Transaction failed on blockchain.", "transactionHash": tx_hash.hex()}
+    except Exception as e:
+        app.logger.error(f"Error sending signed transaction: {e}")
+        return {"status": "error", "message": str(e)}
+
 def check_certificate_validity(address):
     try:
         # Convert address to checksum address for the contract call
@@ -587,6 +626,437 @@ def get_network_status():
     except Exception as e:
         print(f"Error fetching network status: {e}")
         return jsonify({"message": f"Erreur lors de la récupération du statut réseau: {e}"}), 500
+
+@app.route('/api/contract/authority/register_cert', methods=['POST'])
+@token_required
+def register_certificate():
+    data = request.get_json()
+    address_to_certify = data.get('address')
+    public_key_hex = data.get('publicKey')
+    expiry = data.get('expiry') # Unix timestamp
+
+    if not all([address_to_certify, public_key_hex, expiry]):
+        return jsonify({'message': 'Missing data for certificate registration'}), 400
+
+    checksum_address = to_checksum_address_safe(address_to_certify)
+    if not checksum_address:
+        return jsonify({'message': 'Invalid Ethereum address'}), 400
+
+    try:
+        public_key_bytes = bytes.fromhex(public_key_hex.replace('0x', ''))
+        if len(public_key_bytes) != 32:
+            return jsonify({'message': 'Public key must be 32 bytes (64 hex characters)'}), 400
+    except ValueError:
+        return jsonify({'message': 'Invalid public key format (must be hex)'}), 400
+
+    try:
+        expiry_uint = int(expiry)
+    except ValueError:
+        return jsonify({'message': 'Expiry must be an integer (Unix timestamp)'}), 400
+
+    try:
+        function_call = AuthorityContract.functions.RegisterCert(checksum_address, public_key_bytes, expiry_uint)
+        result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
+
+        if result['status'] == 'success':
+            return jsonify({'message': 'Certificate registered successfully', 'transactionHash': result['transactionHash']}), 200
+        else:
+            return jsonify({'message': result['message']}), 500
+    except Exception as e:
+        app.logger.error(f"Error during RegisterCert: {e}")
+        return jsonify({'message': f'Failed to register certificate: {str(e)}'}), 500
+
+@app.route('/api/contract/authority/revoke_cert', methods=['POST'])
+@token_required
+def revoke_certificate():
+    data = request.get_json()
+    address_to_revoke = data.get('address')
+
+    if not address_to_revoke:
+        return jsonify({'message': 'Missing address for certificate revocation'}), 400
+
+    checksum_address = to_checksum_address_safe(address_to_revoke)
+    if not checksum_address:
+        return jsonify({'message': 'Invalid Ethereum address'}), 400
+
+    try:
+        function_call = AuthorityContract.functions.revoke(checksum_address)
+        result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
+
+        if result['status'] == 'success':
+            return jsonify({'message': 'Certificate revoked successfully', 'transactionHash': result['transactionHash']}), 200
+        else:
+            return jsonify({'message': result['message']}), 500
+    except Exception as e:
+        app.logger.error(f"Error during revoke: {e}")
+        return jsonify({'message': f'Failed to revoke certificate: {str(e)}'}), 500
+
+@app.route('/api/contract/authority/is_valid_cert', methods=['POST', 'GET'])
+@token_required
+def get_certificate_validity():
+    address_to_check = request.args.get('address') or request.get_json().get('address')
+    
+    if not address_to_check:
+        return jsonify({'message': 'Missing address to check validity'}), 400
+    
+    checksum_address = to_checksum_address_safe(address_to_check)
+    if not checksum_address:
+        return jsonify({'message': 'Invalid Ethereum address'}), 400
+    
+    try:
+        is_valid = AuthorityContract.functions.isCertificateValid(checksum_address).call()
+        return jsonify({'address': address_to_check, 'isValid': is_valid}), 200
+    except Exception as e:
+        app.logger.error(f"Error checking certificate validity: {e}")
+        return jsonify({'message': f'Failed to check certificate validity: {str(e)}'}), 500
+
+@app.route('/api/contract/authority/transfer_ownership', methods=['POST'])
+@token_required
+def transfer_ownership_route():
+    data = request.get_json()
+    new_owner_address = data.get('newOwnerAddress')
+    private_key = data.get('privateKey') # Assuming private key is passed for signing
+
+    if not new_owner_address or not private_key:
+        return jsonify({'message': 'Missing new owner address or private key'}), 400
+
+    new_owner_checksum = to_checksum_address_safe(new_owner_address)
+    if not new_owner_checksum:
+        return jsonify({'message': 'Invalid new owner address format'}), 400
+
+    try:
+        function_call = AuthorityContract.functions.transferOwnership(new_owner_checksum)
+        result = send_signed_transaction(function_call, private_key)
+        return jsonify(result), 200
+    except Exception as e:
+        app.logger.error(f"Error transferring ownership: {e}")
+        return jsonify({'message': str(e)}), 500
+
+@app.route('/api/contract/authority/cert_revo_list', methods=['GET'])
+@token_required
+def get_cert_revo_list():
+    try:
+        revoked_certs = AuthorityContract.functions.cert_revo_list().call()
+        return jsonify({'status': 'success', 'revokedCertificates': revoked_certs}), 200
+    except Exception as e:
+        app.logger.error(f"Error fetching revoked certificate list: {e}")
+        return jsonify({'message': str(e)}), 500
+
+@app.route('/api/contract/authority/is_valid', methods=['GET'])
+@token_required
+def get_authority_contract_validity():
+    try:
+        is_valid = AuthorityContract.functions.isValid().call()
+        return jsonify({'status': 'success', 'isValid': is_valid}), 200
+    except Exception as e:
+        app.logger.error(f"Error checking Authority contract validity: {e}")
+        return jsonify({'message': str(e)}), 500
+
+@app.route('/api/contract/access_control/add_controller', methods=['POST'])
+@token_required
+def add_controller_route():
+    data = request.get_json()
+    controller_address = data.get('address')
+
+    if not controller_address:
+        return jsonify({'message': 'Missing controller address'}), 400
+
+    checksum_address = to_checksum_address_safe(controller_address)
+    if not checksum_address:
+        return jsonify({'message': 'Invalid Ethereum address'}), 400
+
+    try:
+        function_call = AccessControlContract.functions.addController(checksum_address)
+        result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
+
+        if result['status'] == 'success':
+            return jsonify({'message': 'Controller added successfully', 'transactionHash': result['transactionHash']}), 200
+        else:
+            return jsonify({'message': result['message']}), 500
+    except Exception as e:
+        app.logger.error(f"Error adding controller: {e}")
+        return jsonify({'message': f'Failed to add controller: {str(e)}'}), 500
+
+@app.route('/api/contract/access_control/add_switch', methods=['POST'])
+@token_required
+def add_switch_route():
+    data = request.get_json()
+    switch_address = data.get('address')
+
+    if not switch_address:
+        return jsonify({'message': 'Missing switch address'}), 400
+
+    checksum_address = to_checksum_address_safe(switch_address)
+    if not checksum_address:
+        return jsonify({'message': 'Invalid Ethereum address'}), 400
+
+    try:
+        function_call = AccessControlContract.functions.addSwitch(checksum_address)
+        result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
+
+        if result['status'] == 'success':
+            return jsonify({'message': 'Switch added successfully', 'transactionHash': result['transactionHash']}), 200
+        else:
+            return jsonify({'message': result['message']}), 500
+    except Exception as e:
+        app.logger.error(f"Error adding switch: {e}")
+        return jsonify({'message': f'Failed to add switch: {str(e)}'}), 500
+
+@app.route('/api/contract/access_control/grant_access_cs', methods=['POST'])
+@token_required
+def grant_access_cs_route():
+    data = request.get_json()
+    controller_address = data.get('controllerAddress')
+    switch_address = data.get('switchAddress')
+
+    if not all([controller_address, switch_address]):
+        return jsonify({'message': 'Missing controller or switch address'}), 400
+
+    controller_checksum = to_checksum_address_safe(controller_address)
+    switch_checksum = to_checksum_address_safe(switch_address)
+
+    if not controller_checksum or not switch_checksum:
+        return jsonify({'message': 'Invalid Ethereum address for controller or switch'}), 400
+
+    try:
+        function_call = AccessControlContract.functions.grantAccess(controller_checksum, switch_checksum)
+        result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
+
+        if result['status'] == 'success':
+            return jsonify({'message': 'Controller-Switch access granted successfully', 'transactionHash': result['transactionHash']}), 200
+        else:
+            return jsonify({'message': result['message']}), 500
+    except Exception as e:
+        app.logger.error(f"Error granting C-S access: {e}")
+        return jsonify({'message': f'Failed to grant C-S access: {str(e)}'}), 500
+
+@app.route('/api/contract/access_control/revoke_access_cs', methods=['POST'])
+@token_required
+def revoke_access_cs_route():
+    data = request.get_json()
+    controller_address = data.get('controllerAddress')
+    switch_address = data.get('switchAddress')
+
+    if not all([controller_address, switch_address]):
+        return jsonify({'message': 'Missing controller or switch address'}), 400
+
+    controller_checksum = to_checksum_address_safe(controller_address)
+    switch_checksum = to_checksum_address_safe(switch_address)
+
+    if not controller_checksum or not switch_checksum:
+        return jsonify({'message': 'Invalid Ethereum address for controller or switch'}), 400
+
+    try:
+        function_call = AccessControlContract.functions.revokeAccess(controller_checksum, switch_checksum)
+        result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
+
+        if result['status'] == 'success':
+            return jsonify({'message': 'Controller-Switch access revoked successfully', 'transactionHash': result['transactionHash']}), 200
+        else:
+            return jsonify({'message': result['message']}), 500
+    except Exception as e:
+        app.logger.error(f"Error revoking C-S access: {e}")
+        return jsonify({'message': f'Failed to revoke C-S access: {str(e)}'}), 500
+
+@app.route('/api/contract/access_control/grant_access_cc', methods=['POST'])
+@token_required
+def grant_access_cc_route():
+    data = request.get_json()
+    from_controller_address = data.get('fromControllerAddress')
+    to_controller_address = data.get('toControllerAddress')
+
+    if not all([from_controller_address, to_controller_address]):
+        return jsonify({'message': 'Missing source or target controller address'}), 400
+
+    from_checksum = to_checksum_address_safe(from_controller_address)
+    to_checksum = to_checksum_address_safe(to_controller_address)
+
+    if not from_checksum or not to_checksum:
+        return jsonify({'message': 'Invalid Ethereum address for source or target controller'}), 400
+
+    try:
+        function_call = AccessControlContract.functions.grantControllerAccess(from_checksum, to_checksum)
+        result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
+
+        if result['status'] == 'success':
+            return jsonify({'message': 'Controller-Controller access granted successfully', 'transactionHash': result['transactionHash']}), 200
+        else:
+            return jsonify({'message': result['message']}), 500
+    except Exception as e:
+        app.logger.error(f"Error granting C-C access: {e}")
+        return jsonify({'message': f'Failed to grant C-C access: {str(e)}'}), 500
+
+@app.route('/api/contract/access_control/revoke_access_cc', methods=['POST'])
+@token_required
+def revoke_access_cc_route():
+    data = request.get_json()
+    from_controller_address = data.get('fromControllerAddress')
+    to_controller_address = data.get('toControllerAddress')
+
+    if not all([from_controller_address, to_controller_address]):
+        return jsonify({'message': 'Missing source or target controller address'}), 400
+
+    from_checksum = to_checksum_address_safe(from_controller_address)
+    to_checksum = to_checksum_address_safe(to_controller_address)
+
+    if not from_checksum or not to_checksum:
+        return jsonify({'message': 'Invalid Ethereum address for source or target controller'}), 400
+
+    try:
+        function_call = AccessControlContract.functions.revokeControllerAccess(from_checksum, to_checksum)
+        result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
+
+        if result['status'] == 'success':
+            return jsonify({'message': 'Controller-Controller access revoked successfully', 'transactionHash': result['transactionHash']}), 200
+        else:
+            return jsonify({'message': result['message']}), 500
+    except Exception as e:
+        app.logger.error(f"Error revoking C-C access: {e}")
+        return jsonify({'message': f'Failed to revoke C-C access: {str(e)}'}), 500
+
+@app.route('/api/contract/access_control/grant_access_ss', methods=['POST'])
+@token_required
+def grant_access_ss_route():
+    data = request.get_json()
+    switch1_address = data.get('switch1Address')
+    switch2_address = data.get('switch2Address')
+
+    if not all([switch1_address, switch2_address]):
+        return jsonify({'message': 'Missing switch addresses'}), 400
+
+    switch1_checksum = to_checksum_address_safe(switch1_address)
+    switch2_checksum = to_checksum_address_safe(switch2_address)
+
+    if not switch1_checksum or not switch2_checksum:
+        return jsonify({'message': 'Invalid Ethereum address for switches'}), 400
+
+    try:
+        function_call = AccessControlContract.functions.grantSwitchAccess(switch1_checksum, switch2_checksum)
+        result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
+
+        if result['status'] == 'success':
+            return jsonify({'message': 'Switch-Switch access granted successfully', 'transactionHash': result['transactionHash']}), 200
+        else:
+            return jsonify({'message': result['message']}), 500
+    except Exception as e:
+        app.logger.error(f"Error granting S-S access: {e}")
+        return jsonify({'message': f'Failed to grant S-S access: {str(e)}'}), 500
+
+@app.route('/api/contract/access_control/revoke_access_ss', methods=['POST'])
+@token_required
+def revoke_access_ss_route():
+    data = request.get_json()
+    switch1_address = data.get('switch1Address')
+    switch2_address = data.get('switch2Address')
+
+    if not all([switch1_address, switch2_address]):
+        return jsonify({'message': 'Missing switch addresses'}), 400
+
+    switch1_checksum = to_checksum_address_safe(switch1_address)
+    switch2_checksum = to_checksum_address_safe(switch2_address)
+
+    if not switch1_checksum or not switch2_checksum:
+        return jsonify({'message': 'Invalid Ethereum address for switches'}), 400
+
+    try:
+        function_call = AccessControlContract.functions.revokeSwitchAccess(switch1_checksum, switch2_checksum)
+        result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
+
+        if result['status'] == 'success':
+            return jsonify({'message': 'Switch-Switch access revoked successfully', 'transactionHash': result['transactionHash']}), 200
+        else:
+            return jsonify({'message': result['message']}), 500
+    except Exception as e:
+        app.logger.error(f"Error revoking S-S access: {e}")
+        return jsonify({'message': f'Failed to revoke S-S access: {str(e)}'}), 500
+
+@app.route('/api/contract/access_control/check_access', methods=['POST', 'GET'])
+@token_required
+def check_access_route():
+    source_address = request.args.get('sourceAddress') or request.get_json().get('sourceAddress')
+    target_address = request.args.get('targetAddress') or request.get_json().get('targetAddress')
+
+    if not all([source_address, target_address]):
+        return jsonify({'message': 'Missing source or target address to check access'}), 400
+
+    source_checksum = to_checksum_address_safe(source_address)
+    target_checksum = to_checksum_address_safe(target_address)
+
+    if not source_checksum or not target_checksum:
+        return jsonify({'message': 'Invalid Ethereum address for source or target'}), 400
+
+    try:
+        has_access = AccessControlContract.functions.checkAccess(source_checksum, target_checksum).call()
+        return jsonify({'source': source_address, 'target': target_address, 'hasAccess': has_access}), 200
+    except Exception as e:
+        app.logger.error(f"Error checking access: {e}")
+        return jsonify({'message': f'Failed to check access: {str(e)}'}), 500
+
+@app.route('/api/contract/access_control/add_standby_controller', methods=['POST'])
+@token_required
+def add_standby_controller_route():
+    data = request.get_json()
+    main_controller_address = data.get('mainControllerAddress')
+    standby_controller_address = data.get('standbyControllerAddress')
+    private_key = data.get('privateKey')
+
+    if not main_controller_address or not standby_controller_address or not private_key:
+        return jsonify({'message': 'Missing parameters'}), 400
+
+    main_controller_checksum = to_checksum_address_safe(main_controller_address)
+    standby_controller_checksum = to_checksum_address_safe(standby_controller_address)
+
+    if not main_controller_checksum or not standby_controller_checksum:
+        return jsonify({'message': 'Invalid address format'}), 400
+
+    try:
+        function_call = AccessControlContract.functions.addStandbyController(
+            main_controller_checksum,
+            standby_controller_checksum
+        )
+        result = send_signed_transaction(function_call, private_key)
+        return jsonify(result), 200
+    except Exception as e:
+        app.logger.error(f"Error adding standby controller: {e}")
+        return jsonify({'message': str(e)}), 500
+
+@app.route('/api/contract/access_control/remove_standby_controller', methods=['POST'])
+@token_required
+def remove_standby_controller_route():
+    data = request.get_json()
+    main_controller_address = data.get('mainControllerAddress')
+    standby_controller_address = data.get('standbyControllerAddress')
+    private_key = data.get('privateKey')
+
+    if not main_controller_address or not standby_controller_address or not private_key:
+        return jsonify({'message': 'Missing parameters'}), 400
+
+    main_controller_checksum = to_checksum_address_safe(main_controller_address)
+    standby_controller_checksum = to_checksum_address_safe(standby_controller_address)
+
+    if not main_controller_checksum or not standby_controller_checksum:
+        return jsonify({'message': 'Invalid address format'}), 400
+
+    try:
+        function_call = AccessControlContract.functions.removeStandbyController(
+            main_controller_checksum,
+            standby_controller_checksum
+        )
+        result = send_signed_transaction(function_call, private_key)
+        return jsonify(result), 200
+    except Exception as e:
+        app.logger.error(f"Error removing standby controller: {e}")
+        return jsonify({'message': str(e)}), 500
+
+@app.route('/api/contract/access_control/is_valid', methods=['GET'])
+@token_required
+def get_access_control_contract_validity():
+    try:
+        is_valid = AccessControlContract.functions.isValid().call()
+        return jsonify({'status': 'success', 'isValid': is_valid}), 200
+    except Exception as e:
+        app.logger.error(f"Error checking Access Control contract validity: {e}")
+        return jsonify({'message': str(e)}), 500
 
 # --- Main ---
 if __name__ == '__main__':

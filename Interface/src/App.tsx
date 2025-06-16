@@ -99,10 +99,18 @@ const App = () => (
               }
             />
             <Route
-              path="/authority-status"
+              path="/authority-operations"
               element={
                 <ProtectedRoute>
                   <AuthorityStatus />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/access-control-operations"
+              element={
+                <ProtectedRoute>
+                  <AccessControl />
                 </ProtectedRoute>
               }
             />

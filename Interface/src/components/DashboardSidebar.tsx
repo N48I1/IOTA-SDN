@@ -35,7 +35,6 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
 
   const handleNavigate = (path: string) => {
     navigate(path);
-    // If we're on mobile, close the sidebar after navigation
     if (window.innerWidth < 768) {
       toggleSidebar();
     }
@@ -50,29 +49,29 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
 
   const handleLogout = () => {
     logout();
-    // Redirection will be handled by ProtectedRoute when isAuthenticated becomes false
   };
 
   return (
-    <Sidebar className="fixed top-0 left-0 h-full w-64 bg-white shadow-md">
-      <SidebarHeader>
-        <div className="flex items-center gap-2 px-2">
-          <Network className="h-6 w-6 text-blockchain-primary" />
-          <h2 className="text-lg font-semibold">IOTASDN</h2>
+    <Sidebar className="fixed top-0 left-0 h-full w-[var(--sidebar-width)] bg-sidebar-background text-sidebar-foreground shadow-xl transition-all duration-300 ease-in-out z-20 md:translate-x-0">
+      <SidebarHeader className="px-6 py-4 border-b border-sidebar-border">
+        <div className="flex items-center gap-3">
+          <Network className="h-7 w-7 text-sidebar-primary" />
+          <h2 className="text-xl font-bold tracking-tight">IOTASDN</h2>
         </div>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="flex-1 py-6 space-y-6">
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-          <SidebarGroupContent>
+          <SidebarGroupLabel className="text-sm font-medium text-sidebar-foreground/70 px-6 mb-2">Navigation</SidebarGroupLabel>
+          <SidebarGroupContent className="space-y-1 px-4">
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   tooltip="Dashboard"
                   isActive={location.pathname === "/"}
                   onClick={() => handleNavigate("/")}
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2 px-4 transition-colors duration-200"
                 >
-                  <Home className="h-5 w-5" />
+                  <Home className="h-5 w-5 mr-3" />
                   <span>Dashboard</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -81,19 +80,10 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
                   tooltip="Certificate"
                   isActive={location.pathname === "/certificates"}
                   onClick={() => handleNavigate("/certificates")}
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2 px-4 transition-colors duration-200"
                 >
-                  <Shield className="h-5 w-5" />
+                  <Shield className="h-5 w-5 mr-3" />
                   <span>Certificate Management</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  tooltip="Access Control"
-                  isActive={location.pathname === "/access-control"}
-                  onClick={() => handleNavigate("/access-control")}
-                >
-                  <KeyRound className="h-5 w-5" />
-                  <span>Access Control</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -101,19 +91,32 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
                   tooltip="Network Topology"
                   isActive={location.pathname === "/network"}
                   onClick={() => handleNavigate("/network")}
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2 px-4 transition-colors duration-200"
                 >
-                  <Network className="h-5 w-5" />
+                  <Network className="h-5 w-5 mr-3" />
                   <span>Network Topology</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  tooltip="Analytics"
-                  isActive={location.pathname === "/analytics"}
-                  onClick={() => handleNavigate("/analytics")}
+                  tooltip="Authority Operations"
+                  isActive={location.pathname === "/authority-operations"}
+                  onClick={() => handleNavigate("/authority-operations")}
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2 px-4 transition-colors duration-200"
                 >
-                  <BarChart2 className="h-5 w-5" />
-                  <span>Analytics</span>
+                  <Shield className="h-5 w-5 mr-3" />
+                  <span>Authority Operations</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  tooltip="Access Control Operations"
+                  isActive={location.pathname === "/access-control-operations"}
+                  onClick={() => handleNavigate("/access-control-operations")}
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2 px-4 transition-colors duration-200"
+                >
+                  <KeyRound className="h-5 w-5 mr-3" />
+                  <span>Access Control Operations</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -121,51 +124,60 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
                   tooltip="Settings"
                   isActive={location.pathname === "/settings"}
                   onClick={() => handleNavigate("/settings")}
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2 px-4 transition-colors duration-200"
                 >
-                  <Sliders className="h-5 w-5" />
+                  <Sliders className="h-5 w-5 mr-3" />
                   <span>Settings</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarSeparator />
+        <SidebarSeparator className="bg-sidebar-border mx-6 my-4" />
         <SidebarGroup>
-          <SidebarGroupLabel>Actions</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <div className="space-y-2 px-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full justify-start"
-                onClick={onRefresh}
-                disabled={isLoading}
-              >
-                <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-                <span>Refresh Status</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full justify-start"
-                onClick={handleConsole}
-              >
-                <Terminal className="h-4 w-4 mr-2" />
-                <span>Console</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full justify-start"
-                onClick={handleLogout}
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                <span>Logout</span>
-              </Button>
-            </div>
+          <SidebarGroupLabel className="text-sm font-medium text-sidebar-foreground/70 px-6 mb-2">Actions</SidebarGroupLabel>
+          <SidebarGroupContent className="space-y-2 px-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full justify-start border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              onClick={onRefresh}
+              disabled={isLoading}
+            >
+              <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+              <span>Refresh Status</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full justify-start border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              onClick={handleConsole}
+            >
+              <Terminal className="h-4 w-4 mr-2" />
+              <span>Console</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full justify-start border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              onClick={handleLogout}
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              <span>Logout</span>
+            </Button>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter className="p-4 border-t border-sidebar-border">
+        <div className="text-xs text-sidebar-foreground/80">
+          Connected to:
+          <AddressDisplay
+            address={blockchainConfig.providerUrl}
+            truncate={false}
+            className="text-xs text-sidebar-foreground mt-1"
+          />
+        </div>
+      </SidebarFooter>
     </Sidebar>
   );
 };

@@ -1,10 +1,18 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
+    --background: 220 25% 97%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -13,7 +21,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 210 75% 40%;
+    --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -30,81 +38,83 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 221 83% 53%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 210 20% 12%;
-    --sidebar-foreground: 210 20% 98%;
-    --sidebar-primary: 210 75% 40%;
+    --sidebar-background: 222.2 84% 4.9%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 221 83% 53%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 210 20% 16%;
-    --sidebar-accent-foreground: 210 20% 98%;
-    --sidebar-border: 210 20% 16%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 222.2 84% 4.9%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222.2 84% 4.9%;
+    --sidebar-ring: 221 83% 53%;
+    --sidebar-width: 18rem;
+    --sidebar-background-end-opacity: 222.2 84% 4.9% / 0.95;
   }
 
   .dark {
-    --background: 210 30% 12%;
-    --foreground: 210 20% 98%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
 
-    --card: 210 30% 16%;
-    --card-foreground: 210 20% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 210 30% 16%;
-    --popover-foreground: 210 20% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 210 75% 40%;
-    --primary-foreground: 210 20% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 210 30% 20%;
-    --secondary-foreground: 210 20% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 30% 20%;
-    --muted-foreground: 210 20% 60%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 210 30% 20%;
-    --accent-foreground: 210 20% 98%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 50.6%;
-    --destructive-foreground: 210 20% 98%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 210 30% 20%;
-    --input: 210 30% 20%;
-    --ring: 210 75% 40%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+    --sidebar-background-end-opacity: 222.2 84% 4.9% / 0.95;
   }
 }
 
 @layer components {
   .node {
-    @apply rounded-lg border shadow-md bg-card text-card-foreground;
+    @apply rounded-xl border shadow-lg bg-card text-card-foreground transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-[1.02];
   }
 
   .node-controller {
-    @apply border-blockchain-primary;
+    @apply border-primary/50 shadow-primary/10;
   }
 
   .node-switch {
-    @apply border-blockchain-secondary;
+    @apply border-secondary/50 shadow-secondary/10;
   }
 
   .node-host {
-    @apply border-blockchain-light;
+    @apply border-muted/50 shadow-muted/10;
   }
 
   .connection {
-    @apply stroke-gray-400 stroke-2;
+    @apply stroke-muted-foreground/30 stroke-2;
   }
 
   .connection-valid {
-    @apply stroke-blockchain-success stroke-2;
+    @apply stroke-primary/50 stroke-2;
   }
 
   .connection-invalid {
-    @apply stroke-blockchain-danger stroke-2;
+    @apply stroke-destructive/50 stroke-2;
   }
 
-  /* Add hover sidebar animation classes */
   .sidebar-hover-area {
     @apply fixed left-0 top-0 h-full w-16 z-10;
   }
@@ -114,7 +124,11 @@
   }
 
   .sidebar-button {
-    @apply text-foreground hover:text-foreground;
+    @apply text-foreground hover:text-primary transition-colors duration-200;
+  }
+
+  .interactive-element {
+    @apply transition-all duration-200 ease-in-out hover:shadow-md;
   }
 }
 
@@ -124,25 +138,99 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
 
   .blockchain-card {
-    @apply bg-gradient-to-br from-card to-card/80 backdrop-blur-sm rounded-xl border p-4 shadow-lg transition-all hover:shadow-xl;
+    @apply bg-gradient-to-br from-card to-card/80 backdrop-blur-sm rounded-2xl border p-6 shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.01];
   }
 
   .hex-pattern {
-    background-color: #000000;
+    background-color: hsl(var(--background));
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%233498db' fill-opacity='0.05' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
-  /* Add smooth transition for header adjustment */
   header {
-    @apply transition-all duration-300 ease-in-out;
+    @apply transition-all duration-300 ease-in-out backdrop-blur-sm bg-card/80 border-b;
   }
 
-  /* Make sidebar transitions smooth */
   [data-sidebar="sidebar"] {
-    @apply transition-all duration-300 ease-in-out shadow-lg;
+    @apply transition-all duration-300 ease-in-out shadow-xl bg-gradient-to-b from-[var(--sidebar-background)] to-[var(--sidebar-background-end-opacity)];
+  }
+
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+  }
+
+  .section-spacing {
+    @apply py-8 sm:py-10 lg:py-12;
+  }
+
+  .grid-cols-responsive {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+  }
+
+  /* Nouveaux styles pour les cartes et composants */
+  .card {
+    @apply rounded-2xl border bg-card text-card-foreground shadow-lg transition-all duration-300 hover:shadow-xl;
+  }
+
+  .card-header {
+    @apply p-6 pb-4;
+  }
+
+  .card-title {
+    @apply text-xl font-semibold tracking-tight;
+  }
+
+  .card-description {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .card-content {
+    @apply p-6 pt-0;
+  }
+
+  /* Styles pour les boutons */
+  .button {
+    @apply inline-flex items-center justify-center rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
+  }
+
+  .button-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+
+  .button-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  }
+
+  /* Styles pour les tableaux */
+  .table {
+    @apply w-full border-collapse;
+  }
+
+  .table-header {
+    @apply bg-muted/50 text-muted-foreground;
+  }
+
+  .table-cell {
+    @apply p-4 align-middle border-b;
+  }
+
+  /* Styles pour les badges et étiquettes */
+  .badge {
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  .badge-primary {
+    @apply border-primary/20 bg-primary/10 text-primary;
+  }
+
+  .badge-success {
+    @apply border-green-500/20 bg-green-500/10 text-green-500;
+  }
+
+  .badge-error {
+    @apply border-destructive/20 bg-destructive/10 text-destructive;
   }
 }

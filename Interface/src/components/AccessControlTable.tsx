@@ -9,38 +9,38 @@ interface AccessControlTableProps {
 
 const AccessControlTable = ({ accessStatuses }: AccessControlTableProps) => {
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Source</TableHead>
-          <TableHead>Target</TableHead>
-          <TableHead className="w-[100px] text-center">Status</TableHead>
+    <Table className="w-full caption-bottom text-sm">
+      <TableHeader className="[&_tr]:border-b">
+        <TableRow className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+          <TableHead className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">Source</TableHead>
+          <TableHead className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">Target</TableHead>
+          <TableHead className="h-12 px-4 text-center align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 w-[100px]">Status</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>
+      <TableBody className="[&_tr:last-child]:border-0">
         {accessStatuses.length > 0 ? (
           accessStatuses.map((status, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <AddressDisplay address={status.source} />
+            <TableRow key={index} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+              <TableCell className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+                <AddressDisplay address={status.source} className="text-sm font-medium text-foreground" />
               </TableCell>
-              <TableCell>
-                <AddressDisplay address={status.target} />
+              <TableCell className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+                <AddressDisplay address={status.target} className="text-sm font-medium text-foreground" />
               </TableCell>
-              <TableCell className="text-center">
+              <TableCell className="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-center">
                 {status.status ? (
-                  <CheckCircle className="h-5 w-5 text-green-500 inline-block" />
+                  <CheckCircle className="h-5 w-5 text-blockchain-success inline-block" />
                 ) : (
-                  <XCircle className="h-5 w-5 text-red-500 inline-block" />
+                  <XCircle className="h-5 w-5 text-blockchain-danger inline-block" />
                 )}
               </TableCell>
             </TableRow>
           ))
         ) : (
           <TableRow>
-            <TableCell colSpan={3} className="text-center py-6">
+            <TableCell colSpan={3} className="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-center py-6">
               <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
-                <CircleOff className="h-8 w-8" />
+                <CircleOff className="h-8 w-8 text-muted-foreground/60" />
                 <span>No access control data available</span>
               </div>
             </TableCell>

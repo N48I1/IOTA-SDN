@@ -2,13 +2,17 @@ import { NetworkTopology, NetworkNode, NetworkLink } from '@/types';
 import { blockchainConfig } from './blockchain';
 
 // Creates a mock network topology for visualization based on the Python code
-export function createNetworkTopology(): NetworkTopology {
+export function createNetworkTopology(networkAddresses?: {
+  controller1?: string;
+  switch1?: string;
+  switch2?: string;
+}): NetworkTopology {
   const nodes: NetworkNode[] = [
     {
       id: 'c0',
       type: 'controller',
       label: 'Controller (c0)',
-      ip: '127.0.0.1',
+      ip: networkAddresses?.controller1 || '127.0.0.1',
       x: 400,
       y: 100
     },
@@ -16,6 +20,7 @@ export function createNetworkTopology(): NetworkTopology {
       id: 's0',
       type: 'switch',
       label: 'Switch (s0)',
+      ip: networkAddresses?.switch1,
       x: 300,
       y: 250
     },
@@ -23,6 +28,7 @@ export function createNetworkTopology(): NetworkTopology {
       id: 's1',
       type: 'switch',
       label: 'Switch (s1)',
+      ip: networkAddresses?.switch2,
       x: 500,
       y: 250
     },

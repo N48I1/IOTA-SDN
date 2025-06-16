@@ -31,7 +31,7 @@ const NetworkTopology = () => {
 
     try {
       const data = await fetchBlockchainStatus();
-      const updatedTopology = updateNetworkWithAccessStatus(topology, data.accessStatuses);
+      const updatedTopology = updateNetworkWithAccessStatus(topology, data.access_details);
       setTopology(updatedTopology);
 
       toast({

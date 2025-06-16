@@ -11,24 +11,24 @@ interface StatusCardProps {
 
 const StatusCard = ({ title, description, status, loading, details }: StatusCardProps) => {
   return (
-    <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg">{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+    <Card className="blockchain-card h-full">
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription className="text-ellipsis overflow-hidden whitespace-nowrap">{description}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             {loading ? (
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900" />
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-foreground" />
             ) : status === undefined ? (
-              <div className="h-4 w-4 rounded-full bg-gray-300" />
+              <div className="h-4 w-4 rounded-full bg-muted-foreground/50" />
             ) : status ? (
-              <CheckCircle2 className="h-4 w-4 text-green-500" />
+              <CheckCircle2 className="h-4 w-4 text-blockchain-success" />
             ) : (
-              <XCircle className="h-4 w-4 text-red-500" />
+              <XCircle className="h-4 w-4 text-blockchain-danger" />
             )}
-            <span className="text-sm font-medium">
+            <span className="text-foreground font-medium">
               {loading ? "Loading..." : status === undefined ? "Unknown" : status ? "Valid" : "Invalid"}
             </span>
           </div>
