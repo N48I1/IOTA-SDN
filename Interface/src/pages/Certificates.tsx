@@ -24,14 +24,17 @@ const Certificates = () => {
 
     try {
       const data = await fetchBlockchainStatus();
-      setCertificateStatus(data.certificateStatus);
+      setCertificateStatus({
+        address: data.networkAddresses.controller1 || "N/A",
+        isValid: data.overall_certificates_valid,
+      });
 
       toast({
         title: "Certificate Checked",
-        description: data.certificateStatus.isValid
+        description: data.overall_certificates_valid
           ? "Your certificate is valid"
           : "Your certificate is invalid or expired",
-        variant: data.certificateStatus.isValid ? "default" : "destructive",
+        variant: data.overall_certificates_valid ? "default" : "destructive",
       });
     } catch (error) {
       console.error("Error checking certificate:", error);

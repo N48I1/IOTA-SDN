@@ -82,7 +82,7 @@ const Index = () => {
 
       const areAllCertificatesValid = data.overall_certificates_valid;
       setCertificateOverallStatus({
-        address: "N/A", // No single address for overall status
+        address: data.networkAddresses.controller1 || "N/A",
         isValid: areAllCertificatesValid,
       });
       setRpcStatus({
