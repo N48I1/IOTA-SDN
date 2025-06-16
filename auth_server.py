@@ -20,6 +20,12 @@ from config import BLOCKCHAIN_CONFIG, AUTHORITY_ABI, ACCESS_CONTROL_ABI # Import
 FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://192.168.1.8:8080')
 SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'your-secret-key')
 SEND_EMAIL = os.getenv('SEND_EMAIL', '0') == '1'  # Désactive l'envoi d'email par défaut
+OWNER_PRIVATE_KEY = os.getenv('OWNER_PRIVATE_KEY')
+
+if not OWNER_PRIVATE_KEY:
+    print("WARNING: OWNER_PRIVATE_KEY environment variable is not set! Transactions requiring signing will fail.")
+else:
+    print(f"OWNER_PRIVATE_KEY loaded (first 5 chars): {OWNER_PRIVATE_KEY[:5]}...")
 
 # Web3 setup
 w3 = Web3(Web3.HTTPProvider(BLOCKCHAIN_CONFIG['providerUrl']))
@@ -155,8 +161,12 @@ def send_signed_transaction(function_call, private_key, nonce=None):
         # Sign transaction
         signed_txn = w3.eth.account.sign_transaction(transaction, private_key)
 
+        app.logger.info(f"Type of signed_txn: {type(signed_txn)}")
+        app.logger.info(f"Content of signed_txn (as dict): {dict(signed_txn) if hasattr(signed_txn, 'keys') else signed_txn}")
+        app.logger.info(f"Has raw_transaction attribute: {'raw_transaction' in dir(signed_txn)}")
+
         # Send transaction
-        tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+        tx_hash = w3.eth.send_raw_transaction(signed_txn.raw_transaction)
         
         # Wait for transaction receipt
         tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
@@ -630,28 +640,54 @@ def get_network_status():
 @app.route('/api/contract/authority/register_cert', methods=['POST'])
 @token_required
 def register_certificate():
+    app.logger.info(f"Received request headers: {dict(request.headers)}")
+    app.logger.info(f"Received raw request data for register_cert: {request.get_data()}")
+
+    if not request.is_json:
+        app.logger.error("RegisterCert: Request is not JSON")
+        return jsonify({'message': 'Request must be JSON'}), 400
+        
     data = request.get_json()
-    address_to_certify = data.get('address')
-    public_key_hex = data.get('publicKey')
+    app.logger.info(f"RegisterCert: Parsed JSON data: {data}")
+
+    if not data:
+        app.logger.error("RegisterCert: Empty request body")
+        return jsonify({'message': 'Empty request body'}), 400
+
+    # Try to get address from 'address' or 'ISPs'
+    address_to_certify = data.get('address') or data.get('ISPs')
+    # Try to get public_key from 'publicKey' or 'public_key' or 'publicKeyHex'
+    public_key_hex = data.get('publicKey') or data.get('public_key') or data.get('publicKeyHex')
     expiry = data.get('expiry') # Unix timestamp
 
+    app.logger.info(f"RegisterCert: Extracted address: {address_to_certify}, publicKey: {public_key_hex}, expiry: {expiry}")
+
     if not all([address_to_certify, public_key_hex, expiry]):
+        app.logger.error(f"RegisterCert: Missing data. Address: {bool(address_to_certify)}, PublicKey: {bool(public_key_hex)}, Expiry: {bool(expiry)}")
         return jsonify({'message': 'Missing data for certificate registration'}), 400
+
+    # Remove any quotes from address if present
+    address_to_certify = address_to_certify.strip('"\'')
 
     checksum_address = to_checksum_address_safe(address_to_certify)
     if not checksum_address:
+        app.logger.error(f"RegisterCert: Invalid Ethereum address format: {address_to_certify}")
         return jsonify({'message': 'Invalid Ethereum address'}), 400
 
     try:
+        # Ensure public_key_hex is treated as hex string correctly
         public_key_bytes = bytes.fromhex(public_key_hex.replace('0x', ''))
         if len(public_key_bytes) != 32:
+            app.logger.error(f"RegisterCert: Public key must be 32 bytes (64 hex characters), got {len(public_key_bytes)} bytes")
             return jsonify({'message': 'Public key must be 32 bytes (64 hex characters)'}), 400
     except ValueError:
+        app.logger.error(f"RegisterCert: Invalid public key format (must be hex): {public_key_hex}")
         return jsonify({'message': 'Invalid public key format (must be hex)'}), 400
 
     try:
         expiry_uint = int(expiry)
     except ValueError:
+        app.logger.error(f"RegisterCert: Expiry must be an integer (Unix timestamp), got {expiry}")
         return jsonify({'message': 'Expiry must be an integer (Unix timestamp)'}), 400
 
     try:
@@ -659,33 +695,57 @@ def register_certificate():
         result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
 
         if result['status'] == 'success':
+            app.logger.info(f"RegisterCert: Certificate registered successfully for address: {address_to_certify}")
             return jsonify({'message': 'Certificate registered successfully', 'transactionHash': result['transactionHash']}), 200
         else:
+            app.logger.error(f"RegisterCert: Transaction failed: {result['message']}")
             return jsonify({'message': result['message']}), 500
     except Exception as e:
-        app.logger.error(f"Error during RegisterCert: {e}")
+        app.logger.error(f"RegisterCert: Error during RegisterCert: {e}")
         return jsonify({'message': f'Failed to register certificate: {str(e)}'}), 500
 
 @app.route('/api/contract/authority/revoke_cert', methods=['POST'])
 @token_required
 def revoke_certificate():
+    app.logger.info(f"Received request headers: {dict(request.headers)}")
+    app.logger.info(f"Received request data: {request.get_data()}")
+    
+    if not request.is_json:
+        app.logger.error("Request is not JSON")
+        return jsonify({'message': 'Request must be JSON'}), 400
+        
     data = request.get_json()
-    address_to_revoke = data.get('address')
-
+    app.logger.info(f"Parsed JSON data: {data}")
+    
+    if not data:
+        app.logger.error("Empty request body")
+        return jsonify({'message': 'Empty request body'}), 400
+    
+    # Accept both 'address' and 'ISPs' parameters
+    address_to_revoke = data.get('address') or data.get('ISPs')
+    app.logger.info(f"Address to revoke: {address_to_revoke}")
+    
     if not address_to_revoke:
+        app.logger.error("Missing address in request")
         return jsonify({'message': 'Missing address for certificate revocation'}), 400
 
+    # Remove any quotes if present
+    address_to_revoke = address_to_revoke.strip('"\'')
+    
     checksum_address = to_checksum_address_safe(address_to_revoke)
     if not checksum_address:
-        return jsonify({'message': 'Invalid Ethereum address'}), 400
+        app.logger.error(f"Invalid Ethereum address format: {address_to_revoke}")
+        return jsonify({'message': f'Invalid Ethereum address format: {address_to_revoke}'}), 400
 
     try:
         function_call = AuthorityContract.functions.revoke(checksum_address)
         result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
 
         if result['status'] == 'success':
+            app.logger.info(f"Certificate revoked successfully for address: {address_to_revoke}")
             return jsonify({'message': 'Certificate revoked successfully', 'transactionHash': result['transactionHash']}), 200
         else:
+            app.logger.error(f"Transaction failed: {result['message']}")
             return jsonify({'message': result['message']}), 500
     except Exception as e:
         app.logger.error(f"Error during revoke: {e}")
@@ -694,10 +754,14 @@ def revoke_certificate():
 @app.route('/api/contract/authority/is_valid_cert', methods=['POST', 'GET'])
 @token_required
 def get_certificate_validity():
-    address_to_check = request.args.get('address') or request.get_json().get('address')
+    # Accept both 'address' and 'ISPs' parameters
+    address_to_check = request.args.get('address') or request.args.get('ISPs') or request.get_json().get('address') or request.get_json().get('ISPs')
     
     if not address_to_check:
         return jsonify({'message': 'Missing address to check validity'}), 400
+    
+    # Remove any quotes if present
+    address_to_check = address_to_check.strip('"\'')
     
     checksum_address = to_checksum_address_safe(address_to_check)
     if not checksum_address:

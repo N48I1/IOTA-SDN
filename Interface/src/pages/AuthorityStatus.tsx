@@ -292,7 +292,9 @@ const AuthorityStatus: React.FC = () => {
                                                     <SelectValue placeholder="Choose an operation" />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="transferOwnership">transferOwnership(newOwnerAddress)</SelectItem>
+                                                    <SelectItem value="RegisterCert">RegisterCert(address ISPs, bytes32 publicKey, uint expiry)</SelectItem>
+                                                    <SelectItem value="revoke">revoke(address ISPs)</SelectItem>
+                                                    <SelectItem value="isCertificateValid">isCertificateValid(address ISPs)</SelectItem>
                                                     <SelectItem value="cert_revo_list">cert_revo_list()</SelectItem>
                                                     <SelectItem value="isValid">isValid()</SelectItem>
                                                 </SelectContent>
@@ -584,4 +586,4 @@ const AuthorityStatus: React.FC = () => {
     );
 };
 
-export default AuthorityStatus;
+export default AuthorityStatus; 
