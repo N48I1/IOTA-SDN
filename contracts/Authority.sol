@@ -5,6 +5,7 @@ contract Authority {
     address private owner;
     address[] private revoked;
     mapping(address => Certificate) private certs;
+    address[] private allCerts;
 
     modifier onlyOwner {
         require(msg.sender == owner, "Seul le proprietaire peut effectuer cette operation");
@@ -34,7 +35,7 @@ contract Authority {
             revoked: false,
             registered: true
         });
-
+        allCerts.push(ISPs);
         emit Certified(owner, ISPs, block.timestamp);
     }
 
@@ -60,5 +61,15 @@ contract Authority {
     
     function cert_revo_list() external view returns (address[] memory) {
         return revoked;
+    }
+
+    function isValid() public view returns (bool) {
+        for (uint i = 0; i < allCerts.length; i++) {
+            address addr = allCerts[i];
+            if (certs[addr].registered && !certs[addr].revoked && certs[addr].expiry >= block.timestamp) {
+                return true;
+            }
+        }
+        return false;
     }
 }

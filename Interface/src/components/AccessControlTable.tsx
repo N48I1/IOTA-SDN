@@ -1,4 +1,3 @@
-
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AccessStatusPair } from "@/types";
 import { CheckCircle, XCircle, CircleOff } from "lucide-react";

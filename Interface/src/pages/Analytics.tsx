@@ -5,10 +5,9 @@ import Header from "@/components/Header";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { 
-  getAllAccessStatuses, 
-  checkCertificateValidity, 
-  blockchainConfig 
+import {
+  blockchainConfig,
+  fetchBlockchainStatus
 } from "@/services/blockchain";
 import { AccessStatusPair, CertificateStatus } from "@/types";
 
@@ -34,72 +33,72 @@ const Analytics = () => {
   const [certificateData, setCertificateData] = useState<CertificateStatus[]>([]);
   const [historicalData, setHistoricalData] = useState<HistoricalData[]>([]);
   const [networkData, setNetworkData] = useState<NetworkData[]>([]);
-  
+
   const refreshAnalytics = async () => {
     if (isLoading) return;
-    
+
     setIsLoading(true);
     toast({
       title: "Refreshing analytics",
       description: "Please wait while we process the latest data...",
     });
-    
+
     try {
+      const data = await fetchBlockchainStatus();
+
       // Fetch all access statuses
-      const accessStatuses = await getAllAccessStatuses();
-      setAccessData(accessStatuses);
-      
-      // Check certificate validity for all nodes
-      const certificateChecks = await Promise.all([
-        checkCertificateValidity(blockchainConfig.controller1),
-        checkCertificateValidity(blockchainConfig.controller2),
-        checkCertificateValidity(blockchainConfig.switch1),
-        checkCertificateValidity(blockchainConfig.switch2),
-        checkCertificateValidity(blockchainConfig.switch3)
-      ]);
-      setCertificateData(certificateChecks);
-      
+      setAccessData(data.accessStatuses);
+
+      // For certificate data, we now get a single certificateStatus from backend
+      // If you need multiple, the backend API should be expanded or a new API added.
+      setCertificateData([data.certificateStatus]);
+
+      // Destructure network addresses from the fetched data
+      const { controller1, controller2, switch1, switch2, switch3 } = data.networkAddresses;
+
       // Process access data for network chart
-      const controllerSwitchAccess = accessStatuses.find(
-        a => a.source === blockchainConfig.controller1 && a.target === blockchainConfig.switch1
+      // The logic below relies on specific addresses from blockchainConfig
+      // Ensure blockchainConfig contains these addresses or fetch them from backend as well if dynamic
+      const controllerSwitchAccess = data.accessStatuses.find(
+        a => a.source === controller1 && a.target === switch1
       );
-      const switchSwitchAccess = accessStatuses.find(
-        a => a.source === blockchainConfig.switch1 && a.target === blockchainConfig.switch2
+      const switchSwitchAccess = data.accessStatuses.find(
+        a => a.source === switch1 && a.target === switch2
       );
-      const controllerControllerAccess = accessStatuses.find(
-        a => a.source === blockchainConfig.controller1 && a.target === blockchainConfig.controller2
+      const controllerControllerAccess = data.accessStatuses.find(
+        a => a.source === controller1 && a.target === controller2
       );
-      
+
       const processedNetworkData: NetworkData[] = [
-        { 
-          name: 'Controller-Switch', 
-          connections: 1, 
-          valid: controllerSwitchAccess?.status ? 1 : 0, 
-          invalid: controllerSwitchAccess?.status ? 0 : 1 
+        {
+          name: 'Controller-Switch',
+          connections: 1,
+          valid: controllerSwitchAccess?.status ? 1 : 0,
+          invalid: controllerSwitchAccess?.status ? 0 : 1
         },
-        { 
-          name: 'Switch-Switch', 
-          connections: 1, 
-          valid: switchSwitchAccess?.status ? 1 : 0, 
-          invalid: switchSwitchAccess?.status ? 0 : 1 
+        {
+          name: 'Switch-Switch',
+          connections: 1,
+          valid: switchSwitchAccess?.status ? 1 : 0,
+          invalid: switchSwitchAccess?.status ? 0 : 1
         },
-        { 
-          name: 'Controller-Controller', 
-          connections: 1, 
-          valid: controllerControllerAccess?.status ? 1 : 0, 
-          invalid: controllerControllerAccess?.status ? 0 : 1 
+        {
+          name: 'Controller-Controller',
+          connections: 1,
+          valid: controllerControllerAccess?.status ? 1 : 0,
+          invalid: controllerControllerAccess?.status ? 0 : 1
         }
       ];
       setNetworkData(processedNetworkData);
-      
+
       // Generate historical data based on current state
       // In a real app, this would come from historical blockchain data
-      const validCertCount = certificateChecks.filter(cert => cert.isValid).length;
-      const invalidCertCount = certificateChecks.length - validCertCount;
-      
-      const validAccessCount = accessStatuses.filter(access => access.status).length;
-      const invalidAccessCount = accessStatuses.length - validAccessCount;
-      
+      const validCertCount = data.certificateStatus.isValid ? 1 : 0; // Only one cert status now
+      const invalidCertCount = data.certificateStatus.isValid ? 0 : 1; // Only one cert status now
+
+      const validAccessCount = data.accessStatuses.filter(access => access.status).length;
+      const invalidAccessCount = data.accessStatuses.length - validAccessCount;
+
       // Generate 6 months of data with some variation
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
       const currentMonth = new Date().getMonth();
@@ -113,7 +112,7 @@ const Analytics = () => {
         };
       });
       setHistoricalData(historicalData);
-      
+
       toast({
         title: "Analytics Updated",
         description: "Dashboard has been refreshed with latest data",
@@ -129,35 +128,35 @@ const Analytics = () => {
       setIsLoading(false);
     }
   };
-  
+
   useEffect(() => {
     refreshAnalytics();
   }, []);
-  
+
   // Calculate security metrics
-  const validAccessRate = accessData.length > 0 
-    ? Math.round((accessData.filter(a => a.status).length / accessData.length) * 100) 
+  const validAccessRate = accessData.length > 0
+    ? Math.round((accessData.filter(a => a.status).length / accessData.length) * 100)
     : 0;
-  
+
   const activeConnections = accessData.length;
-  
-  const securityAlerts = certificateData.filter(cert => !cert.isValid).length + 
-                         accessData.filter(access => !access.status).length;
-  
+
+  const securityAlerts = certificateData.filter(cert => !cert.isValid).length +
+    accessData.filter(access => !access.status).length;
+
   return (
     <SidebarProvider>
       <div className="min-h-screen bg-background text-foreground flex w-full">
         <DashboardSidebar onRefresh={refreshAnalytics} isLoading={isLoading} />
-        
+
         <div className="flex-1 flex flex-col">
           <Header onRefresh={refreshAnalytics} isLoading={isLoading} />
-          
+
           <main className="flex-1 container mx-auto py-8 px-4">
             <div className="mb-6">
               <h1 className="text-3xl font-bold">Analytics</h1>
               <p className="text-muted-foreground">Blockchain network performance and security metrics</p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <Card className="blockchain-card h-full">
                 <CardHeader>
@@ -183,7 +182,7 @@ const Analytics = () => {
                   </div>
                 </CardContent>
               </Card>
-              
+
               <Card className="blockchain-card h-full">
                 <CardHeader>
                   <CardTitle>Connection Types</CardTitle>
@@ -209,7 +208,7 @@ const Analytics = () => {
                 </CardContent>
               </Card>
             </div>
-            
+
             <Card className="blockchain-card">
               <CardHeader>
                 <CardTitle>Network Security Overview</CardTitle>

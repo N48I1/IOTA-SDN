@@ -26,7 +26,7 @@ const CertificateCard = ({ certificate, loading = false }: CertificateCardProps)
               </TooltipTrigger>
               <TooltipContent>
                 <p className="max-w-xs">
-                  Device certificates are verified on the blockchain to ensure 
+                  Device certificates are verified on the blockchain to ensure
                   only authorized devices can participate in the SDN.
                 </p>
               </TooltipContent>
@@ -60,7 +60,7 @@ const CertificateCard = ({ certificate, loading = false }: CertificateCardProps)
                 </div>
               )}
             </div>
-            
+
             <div className="pt-2 border-t">
               <h4 className="text-sm font-medium mb-1">Certificate Address</h4>
               <AddressDisplay address={certificate.address} truncate={false} />

@@ -1,55 +1,43 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, XCircle, AlarmClock } from "lucide-react";
 
 interface StatusCardProps {
   title: string;
   description: string;
-  status: boolean | undefined;
+  status?: boolean;
   loading?: boolean;
+  details?: string;
 }
 
-const StatusCard = ({ title, description, status, loading = false }: StatusCardProps) => {
-  let statusDisplay;
-  
-  if (loading) {
-    statusDisplay = (
-      <div className="flex items-center justify-center gap-2 bg-muted p-2 rounded-lg">
-        <AlarmClock className="h-5 w-5 text-muted-foreground animate-pulse" />
-        <span className="text-sm text-muted-foreground">Verifying...</span>
-      </div>
-    );
-  } else if (status === undefined) {
-    statusDisplay = (
-      <div className="flex items-center justify-center gap-2 bg-muted p-2 rounded-lg">
-        <AlarmClock className="h-5 w-5 text-muted-foreground" />
-        <span className="text-sm text-muted-foreground">Not checked</span>
-      </div>
-    );
-  } else if (status) {
-    statusDisplay = (
-      <div className="flex items-center justify-center gap-2 bg-green-100 dark:bg-green-900/30 p-2 rounded-lg">
-        <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
-        <span className="text-sm text-green-700 dark:text-green-400">Valid</span>
-      </div>
-    );
-  } else {
-    statusDisplay = (
-      <div className="flex items-center justify-center gap-2 bg-red-100 dark:bg-red-900/30 p-2 rounded-lg">
-        <XCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
-        <span className="text-sm text-red-700 dark:text-red-400">Invalid</span>
-      </div>
-    );
-  }
-  
+const StatusCard = ({ title, description, status, loading, details }: StatusCardProps) => {
   return (
-    <Card className="blockchain-card h-full">
+    <Card>
       <CardHeader className="pb-2">
         <CardTitle className="text-lg">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        {statusDisplay}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {loading ? (
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900" />
+            ) : status === undefined ? (
+              <div className="h-4 w-4 rounded-full bg-gray-300" />
+            ) : status ? (
+              <CheckCircle2 className="h-4 w-4 text-green-500" />
+            ) : (
+              <XCircle className="h-4 w-4 text-red-500" />
+            )}
+            <span className="text-sm font-medium">
+              {loading ? "Loading..." : status === undefined ? "Unknown" : status ? "Valid" : "Invalid"}
+            </span>
+          </div>
+        </div>
+        {details && (
+          <div className="mt-2 text-sm text-muted-foreground">
+            {details}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

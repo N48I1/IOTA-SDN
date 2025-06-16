@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { NetworkTopology as NetworkTopologyType } from "@/types";
-import { getAllAccessStatuses } from "@/services/blockchain";
+import { NetworkTopology as NetworkTopologyType, AccessStatusPair } from "@/types";
+import { fetchBlockchainStatus } from "@/services/blockchain";
 import { createNetworkTopology, updateNetworkWithAccessStatus } from "@/services/network";
 import Header from "@/components/Header";
 import DashboardSidebar from "@/components/DashboardSidebar";
@@ -30,8 +30,8 @@ const NetworkTopology = () => {
     });
 
     try {
-      const accessStatuses = await getAllAccessStatuses();
-      const updatedTopology = updateNetworkWithAccessStatus(topology, accessStatuses);
+      const data = await fetchBlockchainStatus();
+      const updatedTopology = updateNetworkWithAccessStatus(topology, data.accessStatuses);
       setTopology(updatedTopology);
 
       toast({

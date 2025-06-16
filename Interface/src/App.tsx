@@ -17,6 +17,8 @@ import { LoginForm } from './components/auth/LoginForm';
 import { RegisterForm } from './components/auth/RegisterForm';
 import { ForgotPasswordForm } from './components/auth/ForgotPasswordForm';
 import { ResetPasswordForm } from './components/auth/ResetPasswordForm';
+import AdminPage from './pages/AdminPage';
+import AuthorityStatus from './pages/AuthorityStatus';
 
 const queryClient = new QueryClient();
 
@@ -85,6 +87,22 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Settings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AdminPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/authority-status"
+              element={
+                <ProtectedRoute>
+                  <AuthorityStatus />
                 </ProtectedRoute>
               }
             />

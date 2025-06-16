@@ -1,20 +1,23 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
+import { Info, Clock, CheckCircle2, XCircle } from "lucide-react";
 import AddressDisplay from "./AddressDisplay";
-import { BlockchainConfig } from "@/types";
 
 interface ContractInfoProps {
-  config: BlockchainConfig;
+  contractName: string;
+  address: string | undefined;
+  isValid: boolean | undefined;
+  loading?: boolean;
 }
 
-const ContractInfo = ({ config }: ContractInfoProps) => {
+const ContractInfo = ({ contractName, address, isValid, loading = false }: ContractInfoProps) => {
+  const displayStatus = typeof isValid === 'boolean' ? isValid : undefined;
+
   return (
     <Card className="blockchain-card h-full">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">Smart Contract Information</CardTitle>
+          <CardTitle className="text-lg">{contractName}</CardTitle>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -22,44 +25,40 @@ const ContractInfo = ({ config }: ContractInfoProps) => {
               </TooltipTrigger>
               <TooltipContent>
                 <p className="max-w-xs">
-                  Smart contracts deployed on the IOTA EVM Testnet used for certificate 
-                  verification and access control in the SDN.
+                  Blockchain contract address for {contractName}.
                 </p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>
         <CardDescription>
-          Blockchain contract addresses controlling the SDN
+          Address: {address || 'N/A'}
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-3">
-        <div className="space-y-1">
-          <h4 className="text-sm font-medium">Authority Contract</h4>
-          <AddressDisplay 
-            address={config.authorityContractAddress} 
-            truncate={false}
-            className="ml-3" 
-          />
-        </div>
-        
-        <div className="space-y-1">
-          <h4 className="text-sm font-medium">Access Control Contract</h4>
-          <AddressDisplay 
-            address={config.accessControlContractAddress} 
-            truncate={false}
-            className="ml-3" 
-          />
-        </div>
-        
-        <div className="pt-2">
+      <CardContent>
+        {loading ? (
           <div className="flex items-center justify-between">
-            <div className="text-xs text-muted-foreground">Network</div>
-            <span className="text-xs font-medium px-2 py-0.5 bg-muted rounded-full">
-              IOTA EVM Testnet
-            </span>
+            <div className="flex items-center gap-2">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900" />
+              <span className="text-sm font-medium">Loading...</span>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              {displayStatus === true ? (
+                <CheckCircle2 className="h-4 w-4 text-green-500" />
+              ) : displayStatus === false ? (
+                <XCircle className="h-4 w-4 text-red-500" />
+              ) : (
+                <div className="h-4 w-4 rounded-full bg-gray-300" />
+              )}
+              <span className="text-sm font-medium">
+                {displayStatus === true ? "Valid" : displayStatus === false ? "Invalid" : "Unknown"}
+              </span>
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

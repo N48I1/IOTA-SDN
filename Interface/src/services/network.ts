@@ -1,4 +1,3 @@
-
 import { NetworkTopology, NetworkNode, NetworkLink } from '@/types';
 import { blockchainConfig } from './blockchain';
 
@@ -93,7 +92,7 @@ export function updateNetworkWithAccessStatus(
     const accessStatus = accessStatuses.find(status => {
       const sourceAddress = nodeAddressMapping[link.source as keyof typeof nodeAddressMapping];
       const targetAddress = nodeAddressMapping[link.target as keyof typeof nodeAddressMapping];
-      
+
       return (
         (status.source === sourceAddress && status.target === targetAddress) ||
         (status.source === targetAddress && status.target === sourceAddress)
@@ -103,7 +102,7 @@ export function updateNetworkWithAccessStatus(
     if (accessStatus) {
       return { ...link, status: accessStatus.status };
     }
-    
+
     return link;
   });
 
@@ -111,4 +110,52 @@ export function updateNetworkWithAccessStatus(
     ...network,
     links: updatedLinks
   };
+}
+
+export interface AccessDetail {
+  source: string;
+  target: string;
+  status: boolean;
+}
+
+// Defines the expected structure of the network status API response
+export interface NetworkStatusResponse {
+  overall_certificates_valid: boolean;
+  certificate_details: Array<{ entity: string; address: string; isValid: boolean }>;
+  overall_access_valid: boolean;
+  access_details: AccessDetail[];
+  networkAddresses: {
+    controller1: string;
+    switch1: string;
+    switch2: string;
+  };
+  network_info: {
+    provider: string;
+    last_block: number;
+  };
+  contracts: {
+    authority: { address: string; isValid: boolean };
+    accessControl: { address: string; isValid: boolean };
+  };
+}
+
+// Fetches the comprehensive network status from the backend API
+export async function getNetworkStatus(token: string): Promise<NetworkStatusResponse> {
+  console.log("Token being sent to getNetworkStatus:", token);
+  const response = await fetch('/api/network/status', {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error(`HTTP error! status: ${response.status}, response: ${errorText}`);
+    throw new Error(`HTTP error! status: ${response.status}, response: ${errorText}`);
+  }
+
+  const data = await response.json();
+  console.log("Raw network status data received:", data);
+  return data;
 }

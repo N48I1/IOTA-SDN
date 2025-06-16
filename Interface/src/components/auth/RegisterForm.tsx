@@ -1,36 +1,74 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { ethers } from 'ethers';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Network } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface RegisterFormData {
     username: string;
     email: string;
     password: string;
-    confirmPassword: string;
 }
 
 export function RegisterForm() {
     const [isLoading, setIsLoading] = useState(false);
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterFormData>();
-    const password = watch('password');
+    const [ethAddress, setEthAddress] = useState<string | null>(null);
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormData>();
+
+    const connectWallet = async () => {
+        if (!window.ethereum) {
+            toast.error('MetaMask n\'est pas installé');
+            return;
+        }
+
+        try {
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const accounts = await provider.send("eth_requestAccounts", []);
+            const signer = await provider.getSigner();
+            const address = await signer.getAddress();
+            setEthAddress(address);
+        } catch (error) {
+            if (error instanceof Error) {
+                if (error.message.includes('user rejected')) {
+                    toast.error('Connexion refusée par l\'utilisateur');
+                } else {
+                    toast.error(error.message);
+                }
+            } else {
+                toast.error('Erreur lors de la connexion avec MetaMask');
+            }
+        }
+    };
 
     const onSubmit = async (data: RegisterFormData) => {
+        if (!ethAddress) {
+            toast.error('Veuillez connecter votre portefeuille MetaMask');
+            return;
+        }
+
         try {
             setIsLoading(true);
-            const response = await fetch('http://localhost:5000/api/auth/register', {
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner();
+
+            // Message à signer
+            const message = "Welcome to IOTASDN";
+            const signature = await signer.signMessage(message);
+
+            const response = await fetch('http://192.168.1.8:5000/api/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: data.username,
-                    email: data.email,
-                    password: data.password,
+                    ...data,
+                    eth_address: ethAddress,
+                    signature
                 }),
             });
 
@@ -39,100 +77,105 @@ export function RegisterForm() {
                 throw new Error(result.message);
             }
 
-            localStorage.setItem('token', result.token);
-            toast.success('Inscription réussie !');
-            window.location.href = '/login';
+            toast.success(result.message);
+            navigate('/login');
         } catch (error) {
-            toast.error(error instanceof Error ? error.message : 'Erreur d\'inscription');
+            if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error('Erreur lors de l\'inscription');
+            }
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
-            <Card className="w-[400px] shadow-lg rounded-xl">
-                <CardHeader className="flex flex-col items-center">
-                    <Network className="h-12 w-12 text-blue-600 mb-2" />
-                    <CardTitle>Inscription</CardTitle>
-                    <CardDescription>Créez votre compte</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="username">Nom d'utilisateur</Label>
-                            <Input
-                                id="username"
-                                {...register('username', { required: 'Nom d\'utilisateur requis' })}
-                            />
-                            {errors.username && (
-                                <p className="text-sm text-red-500">{errors.username.message}</p>
-                            )}
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="votre@email.com"
-                                {...register('email', {
-                                    required: 'Email requis',
-                                    pattern: {
-                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                        message: 'Email invalide',
-                                    },
-                                })}
-                            />
-                            {errors.email && (
-                                <p className="text-sm text-red-500">{errors.email.message}</p>
-                            )}
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="password">Mot de passe</Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                {...register('password', {
-                                    required: 'Mot de passe requis',
-                                    minLength: {
-                                        value: 8,
-                                        message: 'Le mot de passe doit contenir au moins 8 caractères',
-                                    },
-                                })}
-                            />
-                            {errors.password && (
-                                <p className="text-sm text-red-500">{errors.password.message}</p>
-                            )}
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
-                            <Input
-                                id="confirmPassword"
-                                type="password"
-                                {...register('confirmPassword', {
-                                    required: 'Confirmation du mot de passe requise',
-                                    validate: value =>
-                                        value === password || 'Les mots de passe ne correspondent pas',
-                                })}
-                            />
-                            {errors.confirmPassword && (
-                                <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>
-                            )}
-                        </div>
-                        <Button type="submit" className="w-full" disabled={isLoading}>
-                            {isLoading ? 'Inscription...' : 'S\'inscrire'}
-                        </Button>
-                    </form>
-                </CardContent>
-                <CardFooter className="flex justify-center">
-                    <p className="text-sm text-gray-500">
-                        Déjà un compte ?{' '}
-                        <a href="/login" className="text-blue-500 hover:text-blue-700">
-                            Se connecter
-                        </a>
-                    </p>
-                </CardFooter>
-            </Card>
-        </div>
+        <Card className="w-[350px]">
+            <CardHeader>
+                <CardTitle>Inscription</CardTitle>
+                <CardDescription>Créez votre compte pour accéder à l'application</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="username">Nom d'utilisateur</Label>
+                        <Input
+                            id="username"
+                            {...register('username', { required: 'Ce champ est requis' })}
+                        />
+                        {errors.username && (
+                            <p className="text-sm text-red-500">{errors.username.message}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="email">Email</Label>
+                        <Input
+                            id="email"
+                            type="email"
+                            {...register('email', {
+                                required: 'Ce champ est requis',
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: 'Email invalide'
+                                }
+                            })}
+                        />
+                        {errors.email && (
+                            <p className="text-sm text-red-500">{errors.email.message}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="password">Mot de passe</Label>
+                        <Input
+                            id="password"
+                            type="password"
+                            {...register('password', {
+                                required: 'Ce champ est requis',
+                                minLength: {
+                                    value: 6,
+                                    message: 'Le mot de passe doit contenir au moins 6 caractères'
+                                }
+                            })}
+                        />
+                        {errors.password && (
+                            <p className="text-sm text-red-500">{errors.password.message}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label>Adresse Ethereum</Label>
+                        {ethAddress ? (
+                            <div className="text-sm font-mono break-all bg-gray-100 p-2 rounded">
+                                {ethAddress}
+                            </div>
+                        ) : (
+                            <Button
+                                type="button"
+                                onClick={connectWallet}
+                                variant="outline"
+                                className="w-full"
+                            >
+                                Connecter MetaMask
+                            </Button>
+                        )}
+                    </div>
+
+                    <Button type="submit" className="w-full" disabled={isLoading || !ethAddress}>
+                        {isLoading ? 'Inscription...' : 'S\'inscrire'}
+                    </Button>
+                </form>
+            </CardContent>
+            <CardFooter className="flex justify-center">
+                <p className="text-sm text-gray-500">
+                    Déjà un compte ?{' '}
+                    <a href="/login" className="text-blue-500 hover:underline">
+                        Se connecter
+                    </a>
+                </p>
+            </CardFooter>
+        </Card>
     );
 } 

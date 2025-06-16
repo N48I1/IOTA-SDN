@@ -11,6 +11,8 @@ contract AccessControl {
     mapping(address => bool) public switches;
     mapping(address => mapping(address => bool)) public accessControl;
     mapping(address => mapping(address => bool)) public standbyControllers;
+    address[] private allControllers;
+    address[] private allSwitches;
 
     event ControllerAdded(address indexed controllerAddress);
     event SwitchAdded(address indexed switchAddress);
@@ -43,12 +45,14 @@ contract AccessControl {
     function addController(address _controllerAddress) external onlyOwner {
         require(!controllers[_controllerAddress], "Controller already exists");
         controllers[_controllerAddress] = true;
+        allControllers.push(_controllerAddress);
         emit ControllerAdded(_controllerAddress);
     }
 
     function addSwitch(address _switchAddress) external onlyOwner {
         require(!switches[_switchAddress], "Switch already exists");
         switches[_switchAddress] = true;
+        allSwitches.push(_switchAddress);
         emit SwitchAdded(_switchAddress);
     }
 
@@ -91,7 +95,35 @@ contract AccessControl {
         emit ControllerAccessRevoked(_fromController, _toController);
     }
 
-    function checkAccess(address _controllerAddress, address _switchAddress) external view onlyOwner returns (bool) {
+    function checkAccess(address _controllerAddress, address _switchAddress) external view returns (bool) {
         return accessControl[_controllerAddress][_switchAddress];
+    }
+
+    function isValid() public view returns (bool) {
+        for (uint i = 0; i < allControllers.length; i++) {
+            for (uint j = 0; j < allSwitches.length; j++) {
+                if (accessControl[allControllers[i]][allSwitches[j]]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    event SwitchAccessGranted(address indexed switch1, address indexed switch2);
+
+   function grantSwitchAccess(address switch1, address switch2) external onlyOwner {
+       require(switches[switch1], "Invalid switch1");
+       require(switches[switch2], "Invalid switch2");
+       accessControl[switch1][switch2] = true;
+       accessControl[switch2][switch1] = true;
+       emit SwitchAccessGranted(switch1, switch2);
+   }
+
+    function revokeSwitchAccess(address switch1, address switch2) external onlyOwner {
+        require(switches[switch1], "Invalid switch1");
+        require(switches[switch2], "Invalid switch2");
+        accessControl[switch1][switch2] = false;
+        accessControl[switch2][switch1] = false;
     }
 }

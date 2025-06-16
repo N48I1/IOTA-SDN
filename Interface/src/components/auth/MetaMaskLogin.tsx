@@ -35,7 +35,7 @@ export function MetaMaskLogin() {
             const signature = await signer.signMessage(message);
 
             // Envoyer la signature au serveur
-            const response = await fetch('http://localhost:5000/api/auth/metamask-login', {
+            const response = await fetch('http://192.168.1.8:5000/api/auth/metamask-login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,7 +45,12 @@ export function MetaMaskLogin() {
 
             const result = await response.json();
             if (!response.ok) {
-                throw new Error(result.message);
+                if (response.status === 403) {
+                    toast.error('Cette adresse Ethereum n\'est pas autorisée à accéder à l\'application');
+                } else {
+                    throw new Error(result.message);
+                }
+                return;
             }
 
             // Stocker le token JWT

@@ -1,9 +1,8 @@
-
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { CertificateStatus } from "@/types";
-import { checkCertificateValidity, blockchainConfig } from "@/services/blockchain";
+import { fetchBlockchainStatus, blockchainConfig } from "@/services/blockchain";
 import Header from "@/components/Header";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import CertificateCard from "@/components/CertificateCard";
@@ -13,26 +12,26 @@ const Certificates = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [certificateStatus, setCertificateStatus] = useState<CertificateStatus>();
-  
+
   const loadCertificateStatus = async () => {
     if (isLoading) return;
-    
+
     setIsLoading(true);
     toast({
       title: "Checking certificate validity",
       description: "Please wait while we verify your certificate...",
     });
-    
+
     try {
-      const cert = await checkCertificateValidity(blockchainConfig.myAddress);
-      setCertificateStatus(cert);
-      
+      const data = await fetchBlockchainStatus();
+      setCertificateStatus(data.certificateStatus);
+
       toast({
         title: "Certificate Checked",
-        description: cert.isValid 
-          ? "Your certificate is valid" 
+        description: data.certificateStatus.isValid
+          ? "Your certificate is valid"
           : "Your certificate is invalid or expired",
-        variant: cert.isValid ? "default" : "destructive",
+        variant: data.certificateStatus.isValid ? "default" : "destructive",
       });
     } catch (error) {
       console.error("Error checking certificate:", error);
@@ -45,31 +44,31 @@ const Certificates = () => {
       setIsLoading(false);
     }
   };
-  
+
   useEffect(() => {
     loadCertificateStatus();
   }, []);
-  
+
   return (
     <SidebarProvider>
       <div className="min-h-screen bg-background text-foreground flex w-full">
         <DashboardSidebar onRefresh={loadCertificateStatus} isLoading={isLoading} />
-        
+
         <div className="flex-1 flex flex-col">
           <Header onRefresh={loadCertificateStatus} isLoading={isLoading} />
-          
+
           <main className="flex-1 container mx-auto py-8 px-4">
             <div className="mb-6">
               <h1 className="text-3xl font-bold">Certificate Management</h1>
               <p className="text-muted-foreground">Manage your blockchain certificates and validate node identity</p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <CertificateCard 
-                certificate={certificateStatus} 
-                loading={isLoading} 
+              <CertificateCard
+                certificate={certificateStatus}
+                loading={isLoading}
               />
-              
+
               <Card className="blockchain-card h-full">
                 <CardHeader>
                   <CardTitle>Certificate Details</CardTitle>
