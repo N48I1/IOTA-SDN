@@ -13,7 +13,7 @@ from eth_account.messages import encode_defunct
 from web3 import Web3
 # from web3.middleware import geth_poa_middleware # Commented out as PoA is auto-handled in web3.py v6+
 import subprocess # Import subprocess
-from config import BLOCKCHAIN_CONFIG, AUTHORITY_ABI, ACCESS_CONTROL_ABI # Import BLOCKCHAIN_CONFIG from config.py
+from config import BLOCKCHAIN_CONFIG # Import BLOCKCHAIN_CONFIG from config.py
 
 # --- Configuration ---
 
@@ -28,24 +28,30 @@ else:
     print(f"OWNER_PRIVATE_KEY loaded (first 5 chars): {OWNER_PRIVATE_KEY[:5]}...")
 
 # Web3 setup
-w3 = Web3(Web3.HTTPProvider(BLOCKCHAIN_CONFIG['providerUrl']))
+try:
+    w3 = Web3(Web3.HTTPProvider(BLOCKCHAIN_CONFIG['providerUrl']))
+    # Check connection
+    if not w3.is_connected():
+        print(f"WARNING: Not connected to blockchain provider!")
+    else:
+        print(f"Connected to blockchain: {BLOCKCHAIN_CONFIG['providerUrl']}")
+except Exception as e:
+    print(f"WARNING: Failed to connect to blockchain provider: {e}")
 
-# Check connection
-if not w3.is_connected():
-    print("WARNING: Not connected to blockchain provider!")
+# Derive owner account and address once if private key is set and w3 is connected
+OWNER_ACCOUNT = None
+OWNER_ADDRESS = None
+if OWNER_PRIVATE_KEY and w3.is_connected(): # Ensure w3 is initialized and connected
+    try:
+        OWNER_ACCOUNT = w3.eth.account.from_key(OWNER_PRIVATE_KEY)
+        OWNER_ADDRESS = OWNER_ACCOUNT.address
+        print(f"OWNER_ADDRESS derived: {OWNER_ADDRESS}")
+    except Exception as e:
+        print(f"ERROR: Could not derive OWNER_ADDRESS from OWNER_PRIVATE_KEY: {e}")
+elif not OWNER_PRIVATE_KEY:
+    print("WARNING: OWNER_PRIVATE_KEY environment variable is not set! Transactions requiring signing will fail and contract calls with owner-only access might fail.")
 else:
-    print(f"Connected to blockchain: {BLOCKCHAIN_CONFIG['providerUrl']}")
-
-# Load ABIs
-with open(BLOCKCHAIN_CONFIG['authorityAbiFile'], 'r') as f:
-    AUTHORITY_ABI = json.load(f)
-
-with open(BLOCKCHAIN_CONFIG['accessControlAbiFile'], 'r') as f:
-    ACCESS_CONTROL_ABI = json.load(f)
-
-# Contract instances
-AuthorityContract = w3.eth.contract(address=w3.to_checksum_address(BLOCKCHAIN_CONFIG['authorityContractAddress']), abi=AUTHORITY_ABI)
-AccessControlContract = w3.eth.contract(address=w3.to_checksum_address(BLOCKCHAIN_CONFIG['accessControlContractAddress']), abi=ACCESS_CONTROL_ABI)
+    print("WARNING: w3 is not connected, OWNER_ADDRESS could not be derived.")
 
 # Liste des adresses Ethereum autorisées
 AUTHORIZED_ADDRESSES = [
@@ -68,6 +74,22 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+
+# Load ABIs
+print(f"[DEBUG] Attempting to load Authority ABI from: {BLOCKCHAIN_CONFIG['authorityAbiFile']}")
+with open(BLOCKCHAIN_CONFIG['authorityAbiFile'], 'r') as f:
+    AUTHORITY_ABI = json.load(f)
+print(f"[DEBUG] Successfully loaded Authority ABI. First few entries: {AUTHORITY_ABI[:2]}")
+
+access_control_abi_path = BLOCKCHAIN_CONFIG['accessControlAbiFile']
+print(f"[DEBUG] Attempting to load AccessControl ABI from: {access_control_abi_path}")
+with open(access_control_abi_path, 'r') as f:
+    ACCESS_CONTROL_ABI = json.load(f)
+print(f"[DEBUG] Successfully loaded AccessControl ABI. Checking for 'grantSwitchAccess': {'grantSwitchAccess' in [func['name'] for func in ACCESS_CONTROL_ABI if 'name' in func]}. Full ABI length: {len(ACCESS_CONTROL_ABI)}")
+
+# Contract instances
+AuthorityContract = w3.eth.contract(address=w3.to_checksum_address(BLOCKCHAIN_CONFIG['authorityContractAddress']), abi=AUTHORITY_ABI)
+AccessControlContract = w3.eth.contract(address=w3.to_checksum_address(BLOCKCHAIN_CONFIG['accessControlContractAddress']), abi=ACCESS_CONTROL_ABI)
 
 # --- DB & Mail ---
 db = SQLAlchemy(app)
@@ -148,7 +170,8 @@ def send_signed_transaction(function_call, private_key, nonce=None):
 
         # Estimate gas for the transaction
         # Ensure that the owner_account.address is used as 'from' address for gas estimation
-        estimated_gas = function_call.estimate_gas({'from': owner_account.address})
+        # estimated_gas = function_call.estimate_gas({'from': owner_account.address})
+        estimated_gas = 300000 # Increased gas limit for testing
         
         # Build transaction
         transaction = function_call.build_transaction({
@@ -203,7 +226,9 @@ def check_access_controller_to_switch(controller_address, switch_address):
             app.logger.error(f"Invalid controller ({controller_address}) or switch ({switch_address}) address for C-S access check.")
             return {"source": controller_address, "target": switch_address, "status": False}
         
-        status = AccessControlContract.functions.accessControl(c_checksum, s_checksum).call()
+        # Pass the owner's address as 'from' for the call
+        call_options = {'from': OWNER_ADDRESS} if OWNER_ADDRESS else {}
+        status = AccessControlContract.functions.accessControl(c_checksum, s_checksum).call(call_options)
         app.logger.debug(f"Controller-Switch Access ({controller_address} -> {switch_address}): {status}")
         return {"source": controller_address, "target": switch_address, "status": status}
     except Exception as e:
@@ -218,7 +243,9 @@ def check_access_switch_to_switch(switch1_address, switch2_address):
             app.logger.error(f"Invalid switch address for S-S access check: Source={switch1_address}, Target={switch2_address}")
             return {"source": switch1_address, "target": switch2_address, "status": False}
 
-        status = AccessControlContract.functions.accessControl(s1_checksum, s2_checksum).call()
+        # Pass the owner's address as 'from' for the call
+        call_options = {'from': OWNER_ADDRESS} if OWNER_ADDRESS else {}
+        status = AccessControlContract.functions.accessControl(s1_checksum, s2_checksum).call(call_options)
         app.logger.debug(f"Switch-Switch Access ({switch1_address} -> {switch2_address}): {status}")
         return {"source": switch1_address, "target": switch2_address, "status": status}
     except Exception as e:
@@ -233,7 +260,9 @@ def check_access_controller_to_controller(source_controller_address, target_cont
             app.logger.error(f"Invalid controller address for C-C access check: Source={source_controller_address}, Target={target_controller_address}")
             return {"source": source_controller_address, "target": target_controller_address, "status": False}
 
-        status = AccessControlContract.functions.accessControl(c1_checksum, c2_checksum).call()
+        # Pass the owner's address as 'from' for the call
+        call_options = {'from': OWNER_ADDRESS} if OWNER_ADDRESS else {}
+        status = AccessControlContract.functions.accessControl(c1_checksum, c2_checksum).call(call_options)
         app.logger.debug(f"Controller-Controller Access ({source_controller_address} -> {target_controller_address}): {status}")
         return {"source": source_controller_address, "target": target_controller_address, "status": status}
     except Exception as e:
@@ -819,51 +848,93 @@ def get_authority_contract_validity():
 @app.route('/api/contract/access_control/add_controller', methods=['POST'])
 @token_required
 def add_controller_route():
+    app.logger.info(f"AddController: Received request headers: {dict(request.headers)}")
+    app.logger.info(f"AddController: Received raw request data: {request.get_data()}")
+
+    if not request.is_json:
+        app.logger.error("AddController: Request is not JSON")
+        return jsonify({'message': 'Request must be JSON'}), 400
+        
     data = request.get_json()
-    controller_address = data.get('address')
+    app.logger.info(f"AddController: Parsed JSON data: {data}")
+
+    if not data:
+        app.logger.error("AddController: Empty request body")
+        return jsonify({'message': 'Empty request body'}), 400
+
+    controller_address = data.get('controllerAddress')
+    app.logger.info(f"AddController: Extracted controllerAddress: {controller_address}")
 
     if not controller_address:
+        app.logger.error("AddController: Missing controller address in request")
         return jsonify({'message': 'Missing controller address'}), 400
 
     checksum_address = to_checksum_address_safe(controller_address)
+    app.logger.info(f"AddController: Checksum address: {checksum_address}")
+
     if not checksum_address:
+        app.logger.error(f"AddController: Invalid Ethereum address format: {controller_address}")
         return jsonify({'message': 'Invalid Ethereum address'}), 400
 
     try:
         function_call = AccessControlContract.functions.addController(checksum_address)
+        app.logger.info(f"AddController: Calling send_signed_transaction with function_call: {function_call} and OWNER_PRIVATE_KEY status: {bool(OWNER_PRIVATE_KEY)}")
         result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
+        app.logger.info(f"AddController: Result of send_signed_transaction: {result}")
 
         if result['status'] == 'success':
             return jsonify({'message': 'Controller added successfully', 'transactionHash': result['transactionHash']}), 200
         else:
+            app.logger.error(f"AddController: Transaction failed with message: {result.get('message', 'No message provided')}")
             return jsonify({'message': result['message']}), 500
     except Exception as e:
-        app.logger.error(f"Error adding controller: {e}")
+        app.logger.error(f"AddController: Error adding controller: {e}", exc_info=True)
         return jsonify({'message': f'Failed to add controller: {str(e)}'}), 500
 
 @app.route('/api/contract/access_control/add_switch', methods=['POST'])
 @token_required
 def add_switch_route():
+    app.logger.info(f"AddSwitch: Received request headers: {dict(request.headers)}")
+    app.logger.info(f"AddSwitch: Received raw request data: {request.get_data()}")
+
+    if not request.is_json:
+        app.logger.error("AddSwitch: Request is not JSON")
+        return jsonify({'message': 'Request must be JSON'}), 400
+
     data = request.get_json()
-    switch_address = data.get('address')
+    app.logger.info(f"AddSwitch: Parsed JSON data: {data}")
+
+    if not data:
+        app.logger.error("AddSwitch: Empty request body")
+        return jsonify({'message': 'Empty request body'}), 400
+
+    switch_address = data.get('switchAddress')
+    app.logger.info(f"AddSwitch: Extracted address: {switch_address}")
 
     if not switch_address:
+        app.logger.error("AddSwitch: Missing switch address in request")
         return jsonify({'message': 'Missing switch address'}), 400
 
     checksum_address = to_checksum_address_safe(switch_address)
+    app.logger.info(f"AddSwitch: Checksum address: {checksum_address}")
+
     if not checksum_address:
+        app.logger.error(f"AddSwitch: Invalid Ethereum address format: {switch_address}")
         return jsonify({'message': 'Invalid Ethereum address'}), 400
 
     try:
         function_call = AccessControlContract.functions.addSwitch(checksum_address)
+        app.logger.info(f"AddSwitch: Calling send_signed_transaction with function_call: {function_call} and OWNER_PRIVATE_KEY status: {bool(OWNER_PRIVATE_KEY)}")
         result = send_signed_transaction(function_call, OWNER_PRIVATE_KEY)
+        app.logger.info(f"AddSwitch: Result of send_signed_transaction: {result}")
 
         if result['status'] == 'success':
             return jsonify({'message': 'Switch added successfully', 'transactionHash': result['transactionHash']}), 200
         else:
+            app.logger.error(f"AddSwitch: Transaction failed with message: {result.get('message', 'No message provided')}")
             return jsonify({'message': result['message']}), 500
     except Exception as e:
-        app.logger.error(f"Error adding switch: {e}")
+        app.logger.error(f"AddSwitch: Error adding switch: {e}", exc_info=True)
         return jsonify({'message': f'Failed to add switch: {str(e)}'}), 500
 
 @app.route('/api/contract/access_control/grant_access_cs', methods=['POST'])
@@ -1037,8 +1108,8 @@ def revoke_access_ss_route():
 @app.route('/api/contract/access_control/check_access', methods=['POST', 'GET'])
 @token_required
 def check_access_route():
-    source_address = request.args.get('sourceAddress') or request.get_json().get('sourceAddress')
-    target_address = request.args.get('targetAddress') or request.get_json().get('targetAddress')
+    source_address = request.args.get('source') or request.get_json().get('source')
+    target_address = request.args.get('target') or request.get_json().get('target')
 
     if not all([source_address, target_address]):
         return jsonify({'message': 'Missing source or target address to check access'}), 400
@@ -1050,7 +1121,9 @@ def check_access_route():
         return jsonify({'message': 'Invalid Ethereum address for source or target'}), 400
 
     try:
-        has_access = AccessControlContract.functions.checkAccess(source_checksum, target_checksum).call()
+        # Pass the owner's address as 'from' for the call
+        call_options = {'from': OWNER_ADDRESS} if OWNER_ADDRESS else {}
+        has_access = AccessControlContract.functions.checkAccess(source_checksum, target_checksum).call(call_options)
         return jsonify({'source': source_address, 'target': target_address, 'hasAccess': has_access}), 200
     except Exception as e:
         app.logger.error(f"Error checking access: {e}")

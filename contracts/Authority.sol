@@ -39,6 +39,19 @@ contract Authority {
         emit Certified(owner, ISPs, block.timestamp);
     }
 
+    function updateCertificate(address ISPs, bytes32 newPublicKey, uint newExpiry, bool setRevokedToFalse) public onlyOwner {
+        require(ISPs != address(0), "Adresse invalide");
+        require(certs[ISPs].registered, "Certificat non enregistre");
+
+        certs[ISPs].publicKey = newPublicKey;
+        certs[ISPs].expiry = newExpiry;
+        if (setRevokedToFalse) {
+            certs[ISPs].revoked = false;
+        }
+        // No need to re-add to allCerts as it's already registered
+        emit Certified(owner, ISPs, block.timestamp); // Re-emit if desired, or create a new event
+    }
+
     event Revoked(address from, address to, uint date);
     
     function revoke(address ISPs) public onlyOwner {

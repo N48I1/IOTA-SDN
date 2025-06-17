@@ -92,8 +92,8 @@ const AccessControl = () => {
         case 'grantSwitchAccess': // Switch to Switch
           url = '/api/contract/access_control/grant_access_ss';
           body = {
-            switch1: accessControlOperationParams.switch1,
-            switch2: accessControlOperationParams.switch2
+            switch1Address: accessControlOperationParams.switch1,
+            switch2Address: accessControlOperationParams.switch2
           };
           break;
         case 'revokeSwitchAccess': // Switch to Switch

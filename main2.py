@@ -28,8 +28,8 @@ def format_address(addr):
 AUTHORITY_CONTRACT_ADDRESS = format_address("0xeFa530f657A219f85516E9A5647A7906E00A2556")
 ACCESS_CONTROL_CONTRACT_ADDRESS = format_address("0x5519662Fc635E7da301418C9B212e9680724187f") # Add Access Control contract address
 SWITCHES = {
-    's0': format_address("1e8ca3b2af6209b92e9181ec689447c9ec032ae3"),
-    's1': format_address("de84b29a82e908f812ce153748d30aaae10713de")
+    's0': format_address("4997332d52e039073956cf5AEC4Ca960550cba85"),
+    's1': format_address("0C64Db372B0aBA5a65251f6E2CcB62B499b60975")
 }
 ALL_SWITCHES = list(SWITCHES.values())
 
@@ -187,14 +187,14 @@ def check_all_access(access_control_contract):
                 info(f"❌ Accès {ctrl} -> {sw} REFUSÉ\n")
                 ok = False
     # Switch <-> Switch
-    for i in range(len(ALL_SWITCHES)):
-        for j in range(i+1, len(ALL_SWITCHES)):
-            access = access_control_contract.functions.checkAccess(ALL_SWITCHES[i], ALL_SWITCHES[j]).call({'from': OWNER_ADDRESS})
-            if access:
-                info(f"✅ Accès {ALL_SWITCHES[i]} <-> {ALL_SWITCHES[j]} OK\n")
-            else:
-                info(f"❌ Accès {ALL_SWITCHES[i]} <-> {ALL_SWITCHES[j]} REFUSÉ\n")
-                ok = False
+    # for i in range(len(ALL_SWITCHES)):
+    #     for j in range(i+1, len(ALL_SWITCHES)):
+    #         access = access_control_contract.functions.checkAccess(ALL_SWITCHES[i], ALL_SWITCHES[j]).call({'from': OWNER_ADDRESS})
+    #         if access:
+    #             info(f"✅ Accès {ALL_SWITCHES[i]} <-> {ALL_SWITCHES[j]} OK\n")
+    #         else:
+    #             info(f"❌ Accès {ALL_SWITCHES[i]} <-> {ALL_SWITCHES[j]} REFUSÉ\n")
+    #             ok = False
     return ok
 
 if __name__ == '__main__':

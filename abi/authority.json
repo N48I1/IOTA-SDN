@@ -91,6 +91,34 @@
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "ISPs",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "newPublicKey",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "newExpiry",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "setRevokedToFalse",
+				"type": "bool"
+			}
+		],
+		"name": "updateCertificate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "cert_revo_list",
 		"outputs": [
