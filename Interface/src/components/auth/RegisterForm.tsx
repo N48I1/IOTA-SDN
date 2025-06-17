@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
+import { Network } from "lucide-react";
 
 interface RegisterFormData {
     username: string;
@@ -91,91 +92,107 @@ export function RegisterForm() {
     };
 
     return (
-        <Card className="w-[350px]">
-            <CardHeader>
-                <CardTitle>Inscription</CardTitle>
-                <CardDescription>Créez votre compte pour accéder à l'application</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="username">Nom d'utilisateur</Label>
-                        <Input
-                            id="username"
-                            {...register('username', { required: 'Ce champ est requis' })}
-                        />
-                        {errors.username && (
-                            <p className="text-sm text-red-500">{errors.username.message}</p>
-                        )}
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-background/80 p-4">
+            <Card className="w-full max-w-md shadow-2xl border-border/50 bg-card/95 backdrop-blur-sm">
+                <CardHeader className="space-y-4 text-center">
+                    <div className="flex justify-center">
+                        <Network className="h-12 w-12 text-primary" />
                     </div>
-
-                    <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            {...register('email', {
-                                required: 'Ce champ est requis',
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: 'Email invalide'
-                                }
-                            })}
-                        />
-                        {errors.email && (
-                            <p className="text-sm text-red-500">{errors.email.message}</p>
-                        )}
+                    <div>
+                        <CardTitle className="text-2xl font-bold tracking-tight">Inscription</CardTitle>
+                        <CardDescription className="text-muted-foreground">
+                            Créez votre compte pour accéder à l'application
+                        </CardDescription>
                     </div>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="username" className="text-sm font-medium">Nom d'utilisateur</Label>
+                            <Input
+                                id="username"
+                                className="transition-all duration-200 focus:ring-2 focus:ring-primary/20"
+                                {...register('username', { required: 'Ce champ est requis' })}
+                            />
+                            {errors.username && (
+                                <p className="text-sm text-destructive">{errors.username.message}</p>
+                            )}
+                        </div>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="password">Mot de passe</Label>
-                        <Input
-                            id="password"
-                            type="password"
-                            {...register('password', {
-                                required: 'Ce champ est requis',
-                                minLength: {
-                                    value: 6,
-                                    message: 'Le mot de passe doit contenir au moins 6 caractères'
-                                }
-                            })}
-                        />
-                        {errors.password && (
-                            <p className="text-sm text-red-500">{errors.password.message}</p>
-                        )}
-                    </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="email" className="text-sm font-medium">Email</Label>
+                            <Input
+                                id="email"
+                                type="email"
+                                className="transition-all duration-200 focus:ring-2 focus:ring-primary/20"
+                                {...register('email', {
+                                    required: 'Ce champ est requis',
+                                    pattern: {
+                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                        message: 'Email invalide'
+                                    }
+                                })}
+                            />
+                            {errors.email && (
+                                <p className="text-sm text-destructive">{errors.email.message}</p>
+                            )}
+                        </div>
 
-                    <div className="space-y-2">
-                        <Label>Adresse Ethereum</Label>
-                        {ethAddress ? (
-                            <div className="text-sm font-mono break-all bg-gray-100 p-2 rounded">
-                                {ethAddress}
-                            </div>
-                        ) : (
-                            <Button
-                                type="button"
-                                onClick={connectWallet}
-                                variant="outline"
-                                className="w-full"
-                            >
-                                Connecter MetaMask
-                            </Button>
-                        )}
-                    </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="password" className="text-sm font-medium">Mot de passe</Label>
+                            <Input
+                                id="password"
+                                type="password"
+                                className="transition-all duration-200 focus:ring-2 focus:ring-primary/20"
+                                {...register('password', {
+                                    required: 'Ce champ est requis',
+                                    minLength: {
+                                        value: 6,
+                                        message: 'Le mot de passe doit contenir au moins 6 caractères'
+                                    }
+                                })}
+                            />
+                            {errors.password && (
+                                <p className="text-sm text-destructive">{errors.password.message}</p>
+                            )}
+                        </div>
 
-                    <Button type="submit" className="w-full" disabled={isLoading || !ethAddress}>
-                        {isLoading ? 'Inscription...' : 'S\'inscrire'}
-                    </Button>
-                </form>
-            </CardContent>
-            <CardFooter className="flex justify-center">
-                <p className="text-sm text-gray-500">
-                    Déjà un compte ?{' '}
-                    <a href="/login" className="text-blue-500 hover:underline">
-                        Se connecter
-                    </a>
-                </p>
-            </CardFooter>
-        </Card>
+                        <div className="space-y-2">
+                            <Label className="text-sm font-medium">Adresse Ethereum</Label>
+                            {ethAddress ? (
+                                <div className="text-sm font-mono break-all bg-muted/50 p-3 rounded-lg border border-border/50">
+                                    {ethAddress}
+                                </div>
+                            ) : (
+                                <Button
+                                    type="button"
+                                    onClick={connectWallet}
+                                    variant="outline"
+                                    className="w-full transition-all duration-200 hover:bg-accent hover:text-accent-foreground"
+                                >
+                                    Connecter MetaMask
+                                </Button>
+                            )}
+                        </div>
+
+                        <Button
+                            type="submit"
+                            className="w-full transition-all duration-200 hover:scale-[1.02] hover:shadow-md"
+                            disabled={isLoading || !ethAddress}
+                        >
+                            {isLoading ? 'Inscription...' : 'S\'inscrire'}
+                        </Button>
+                    </form>
+                </CardContent>
+                <CardFooter className="flex justify-center border-t border-border/50 pt-6">
+                    <p className="text-sm text-muted-foreground">
+                        Déjà un compte ?{' '}
+                        <a href="/login" className="text-primary hover:text-primary/80 transition-colors duration-200">
+                            Se connecter
+                        </a>
+                    </p>
+                </CardFooter>
+            </Card>
+        </div>
     );
 } 

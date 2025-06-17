@@ -69,7 +69,7 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
                   tooltip="Dashboard"
                   isActive={location.pathname === "/"}
                   onClick={() => handleNavigate("/")}
-                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2 px-4 transition-colors duration-200"
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2.5 px-4 transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md"
                 >
                   <Home className="h-5 w-5 mr-3" />
                   <span>Dashboard</span>
@@ -80,7 +80,7 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
                   tooltip="Certificate"
                   isActive={location.pathname === "/certificates"}
                   onClick={() => handleNavigate("/certificates")}
-                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2 px-4 transition-colors duration-200"
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2.5 px-4 transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md"
                 >
                   <Shield className="h-5 w-5 mr-3" />
                   <span>Certificate Management</span>
@@ -91,7 +91,7 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
                   tooltip="Network Topology"
                   isActive={location.pathname === "/network"}
                   onClick={() => handleNavigate("/network")}
-                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2 px-4 transition-colors duration-200"
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2.5 px-4 transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md"
                 >
                   <Network className="h-5 w-5 mr-3" />
                   <span>Network Topology</span>
@@ -102,7 +102,7 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
                   tooltip="Authority Operations"
                   isActive={location.pathname === "/authority-operations"}
                   onClick={() => handleNavigate("/authority-operations")}
-                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2 px-4 transition-colors duration-200"
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2.5 px-4 transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md"
                 >
                   <Shield className="h-5 w-5 mr-3" />
                   <span>Authority Operations</span>
@@ -113,7 +113,7 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
                   tooltip="Access Control Operations"
                   isActive={location.pathname === "/access-control-operations"}
                   onClick={() => handleNavigate("/access-control-operations")}
-                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2 px-4 transition-colors duration-200"
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2.5 px-4 transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md"
                 >
                   <KeyRound className="h-5 w-5 mr-3" />
                   <span>Access Control Operations</span>
@@ -124,7 +124,7 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
                   tooltip="Settings"
                   isActive={location.pathname === "/settings"}
                   onClick={() => handleNavigate("/settings")}
-                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2 px-4 transition-colors duration-200"
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground rounded-lg py-2.5 px-4 transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md"
                 >
                   <Sliders className="h-5 w-5 mr-3" />
                   <span>Settings</span>
@@ -140,7 +140,7 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
             <Button
               variant="outline"
               size="sm"
-              className="w-full justify-start border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              className="w-full justify-start border-sidebar-border bg-sidebar-accent/10 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md"
               onClick={onRefresh}
               disabled={isLoading}
             >
@@ -150,7 +150,7 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
             <Button
               variant="outline"
               size="sm"
-              className="w-full justify-start border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              className="w-full justify-start border-sidebar-border bg-sidebar-accent/10 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md"
               onClick={handleConsole}
             >
               <Terminal className="h-4 w-4 mr-2" />
@@ -159,7 +159,7 @@ const DashboardSidebar = ({ onRefresh, isLoading }: DashboardSidebarProps) => {
             <Button
               variant="outline"
               size="sm"
-              className="w-full justify-start border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              className="w-full justify-start border-sidebar-border bg-sidebar-accent/10 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md hover:border-destructive/50 hover:text-destructive"
               onClick={handleLogout}
             >
               <LogOut className="h-4 w-4 mr-2" />
