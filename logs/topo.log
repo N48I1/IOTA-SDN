@@ -1,72 +1,119 @@
-2025-06-14 04:33:05,509 - mininet - INFO - *** Creating network
+2025-06-16 23:10:23,545 - mininet - INFO - *** Creating network
 
-2025-06-14 04:33:05,509 - mininet - INFO - *** Adding hosts:
+2025-06-16 23:10:23,545 - mininet - INFO - *** Adding hosts:
 
-2025-06-14 04:33:05,532 - mininet - INFO - h1 
-2025-06-14 04:33:05,546 - mininet - INFO - h2 
-2025-06-14 04:33:05,567 - mininet - INFO - h3 
-2025-06-14 04:33:05,584 - mininet - INFO - h4 
-2025-06-14 04:33:05,585 - mininet - INFO - 
+2025-06-16 23:10:23,559 - mininet - INFO - h1 
+2025-06-16 23:10:23,568 - mininet - INFO - h2 
+2025-06-16 23:10:23,578 - mininet - INFO - h3 
+2025-06-16 23:10:23,587 - mininet - INFO - h4 
+2025-06-16 23:10:23,587 - mininet - INFO - 
 *** Adding switches:
 
-2025-06-14 04:33:05,622 - mininet - INFO - s1 
-2025-06-14 04:33:05,636 - mininet - INFO - s2 
-2025-06-14 04:33:05,637 - mininet - INFO - 
+2025-06-16 23:10:23,603 - mininet - INFO - s1 
+2025-06-16 23:10:23,610 - mininet - INFO - s2 
+2025-06-16 23:10:23,610 - mininet - INFO - 
 *** Adding links:
 
-2025-06-14 04:33:05,656 - mininet - INFO - (h1, s1) 
-2025-06-14 04:33:05,679 - mininet - INFO - (h2, s1) 
-2025-06-14 04:33:05,727 - mininet - INFO - (h3, s2) 
-2025-06-14 04:33:05,752 - mininet - INFO - (h4, s2) 
-2025-06-14 04:33:05,781 - mininet - INFO - (s1, s2) 
-2025-06-14 04:33:05,782 - mininet - INFO - 
+2025-06-16 23:10:23,619 - mininet - INFO - (h1, s1) 
+2025-06-16 23:10:23,627 - mininet - INFO - (h2, s1) 
+2025-06-16 23:10:23,641 - mininet - INFO - (h3, s2) 
+2025-06-16 23:10:23,655 - mininet - INFO - (h4, s2) 
+2025-06-16 23:10:23,671 - mininet - INFO - (s1, s2) 
+2025-06-16 23:10:23,671 - mininet - INFO - 
 
-2025-06-14 04:33:05,782 - mininet - INFO - *** Configuring hosts
+2025-06-16 23:10:23,671 - mininet - INFO - *** Configuring hosts
 
-2025-06-14 04:33:05,783 - mininet - INFO - h1 
-2025-06-14 04:33:05,801 - mininet - INFO - h2 
-2025-06-14 04:33:05,815 - mininet - INFO - h3 
-2025-06-14 04:33:05,823 - mininet - INFO - h4 
-2025-06-14 04:33:05,836 - mininet - INFO - 
+2025-06-16 23:10:23,672 - mininet - INFO - h1 
+2025-06-16 23:10:23,683 - mininet - INFO - h2 
+2025-06-16 23:10:23,689 - mininet - INFO - h3 
+2025-06-16 23:10:23,694 - mininet - INFO - h4 
+2025-06-16 23:10:23,701 - mininet - INFO - 
 
-2025-06-14 04:33:05,836 - mininet - INFO - *** Starting controller
+2025-06-16 23:10:23,702 - mininet - INFO - *** Starting controller
 
-2025-06-14 04:33:05,836 - mininet - INFO - 
+2025-06-16 23:10:23,702 - mininet - INFO - 
 
-2025-06-14 04:33:05,836 - mininet - INFO - *** Starting 2 switches
+2025-06-16 23:10:23,702 - mininet - INFO - *** Starting 2 switches
 
-2025-06-14 04:33:05,836 - mininet - INFO - s1 
-2025-06-14 04:33:05,836 - mininet - INFO - s2 
-2025-06-14 04:33:05,836 - mininet - INFO - ...
-2025-06-14 04:33:05,911 - mininet - INFO - 
+2025-06-16 23:10:23,702 - mininet - INFO - s1 
+2025-06-16 23:10:23,702 - mininet - INFO - s2 
+2025-06-16 23:10:23,702 - mininet - INFO - ...
+2025-06-16 23:10:23,755 - mininet - INFO - 
 
-2025-06-14 04:33:18,431 - mininet - INFO - *** Starting CLI:
+2025-06-16 23:10:30,710 - mininet - INFO - *** Starting CLI:
 
-2025-06-14 04:35:40,277 - mininet - Level 25 - *** Ping: testing ping reachability
+2025-06-16 23:11:21,063 - mininet - Level 25 - *** Ping: testing ping reachability
 
-2025-06-14 04:35:40,277 - mininet - Level 25 - h1 -> 
-2025-06-14 04:35:40,289 - mininet - Level 25 - h2 
-2025-06-14 04:35:43,403 - mininet - Level 25 - X 
-2025-06-14 04:35:46,475 - mininet - Level 25 - X 
-2025-06-14 04:35:46,475 - mininet - Level 25 - 
+2025-06-16 23:11:21,063 - mininet - Level 25 - h1 -> 
+2025-06-16 23:11:24,172 - mininet - Level 25 - X 
+2025-06-16 23:11:27,242 - mininet - Level 25 - X 
+2025-06-16 23:11:30,315 - mininet - Level 25 - X 
+2025-06-16 23:11:30,315 - mininet - Level 25 - 
 
-2025-06-14 04:35:46,475 - mininet - Level 25 - h2 -> 
-2025-06-14 04:35:46,480 - mininet - Level 25 - h1 
-2025-06-14 04:35:49,546 - mininet - Level 25 - X 
-2025-06-14 04:35:52,619 - mininet - Level 25 - X 
-2025-06-14 04:35:52,620 - mininet - Level 25 - 
+2025-06-16 23:11:30,315 - mininet - Level 25 - h2 -> 
+2025-06-16 23:11:33,387 - mininet - Level 25 - X 
+2025-06-16 23:11:36,458 - mininet - Level 25 - X 
+2025-06-16 23:11:39,531 - mininet - Level 25 - X 
+2025-06-16 23:11:39,532 - mininet - Level 25 - 
 
-2025-06-14 04:35:52,620 - mininet - Level 25 - h3 -> 
-2025-06-14 04:35:55,692 - mininet - Level 25 - X 
-2025-06-14 04:35:58,764 - mininet - Level 25 - X 
-2025-06-14 04:36:01,834 - mininet - Level 25 - X 
-2025-06-14 04:36:01,835 - mininet - Level 25 - 
+2025-06-16 23:11:39,532 - mininet - Level 25 - h3 -> 
+2025-06-16 23:11:42,602 - mininet - Level 25 - X 
+2025-06-16 23:11:45,676 - mininet - Level 25 - X 
+2025-06-16 23:11:48,746 - mininet - Level 25 - X 
+2025-06-16 23:11:48,747 - mininet - Level 25 - 
 
-2025-06-14 04:36:01,835 - mininet - Level 25 - h4 -> 
-2025-06-14 04:36:04,907 - mininet - Level 25 - X 
-2025-06-14 04:36:07,979 - mininet - Level 25 - X 
-2025-06-14 04:36:11,051 - mininet - Level 25 - X 
-2025-06-14 04:36:11,052 - mininet - Level 25 - 
+2025-06-16 23:11:48,747 - mininet - Level 25 - h4 -> 
+2025-06-16 23:11:51,818 - mininet - Level 25 - X 
+2025-06-16 23:11:54,892 - mininet - Level 25 - X 
+2025-06-16 23:11:57,963 - mininet - Level 25 - X 
+2025-06-16 23:11:57,963 - mininet - Level 25 - 
 
-2025-06-14 04:36:11,052 - mininet - Level 25 - *** Results: 83% dropped (2/12 received)
+2025-06-16 23:11:57,963 - mininet - Level 25 - *** Results: 100% dropped (0/12 received)
 
+2025-06-16 23:15:15,734 - mininet - Level 25 - PING 10.0.1.20 (10.0.1.20) 56(84) bytes of data.
+
+2025-06-16 23:15:18,794 - mininet - Level 25 - From 10.0.1.10 icmp_seq=1 Destination Host Unreachable
+From 10.0.1.10 icmp_seq=2 Destination Host Unreachable
+From 10.0.1.10 icmp_seq=3 Destination Host Unreachable
+
+2025-06-16 23:15:21,866 - mininet - Level 25 - From 10.0.1.10 icmp_seq=4 Destination Host Unreachable
+From 10.0.1.10 icmp_seq=5 Destination Host Unreachable
+
+2025-06-16 23:15:24,938 - mininet - Level 25 - From 10.0.1.10 icmp_seq=8 Destination Host Unreachable
+From 10.0.1.10 icmp_seq=9 Destination Host Unreachable
+
+2025-06-16 23:15:28,011 - mininet - Level 25 - From 10.0.1.10 icmp_seq=10 Destination Host Unreachable
+From 10.0.1.10 icmp_seq=11 Destination Host Unreachable
+From 10.0.1.10 icmp_seq=12 Destination Host Unreachable
+From 10.0.1.10 icmp_seq=13 Destination Host Unreachable
+
+2025-06-16 23:15:30,300 - mininet - Level 25 - 
+--- 10.0.1.20 ping statistics ---
+15 packets transmitted, 0 received, +11 errors, 100% packet loss, time 14325ms
+pipe 4
+
+2025-06-16 23:15:30,300 - mininet - Level 25 - 
+2025-06-16 23:15:34,863 - mininet - Level 25 - PING 10.0.2.20 (10.0.2.20) 56(84) bytes of data.
+
+2025-06-16 23:15:37,930 - mininet - Level 25 - From 10.0.2.10 icmp_seq=1 Destination Host Unreachable
+From 10.0.2.10 icmp_seq=2 Destination Host Unreachable
+From 10.0.2.10 icmp_seq=3 Destination Host Unreachable
+
+2025-06-16 23:15:39,576 - mininet - Level 25 - 
+--- 10.0.2.20 ping statistics ---
+5 packets transmitted, 0 received, +3 errors, 100% packet loss, time 4091ms
+pipe 4
+
+2025-06-16 23:15:39,576 - mininet - Level 25 - 
+2025-06-16 23:15:44,569 - mininet - Level 25 - PING 10.0.1.10 (10.0.1.10) 56(84) bytes of data.
+
+2025-06-16 23:15:47,658 - mininet - Level 25 - From 10.0.1.20 icmp_seq=1 Destination Host Unreachable
+From 10.0.1.20 icmp_seq=2 Destination Host Unreachable
+From 10.0.1.20 icmp_seq=3 Destination Host Unreachable
+
+2025-06-16 23:15:48,804 - mininet - Level 25 - 
+--- 10.0.1.10 ping statistics ---
+5 packets transmitted, 0 received, +3 errors, 100% packet loss, time 4113ms
+pipe 4
+
+2025-06-16 23:15:48,805 - mininet - Level 25 - 
