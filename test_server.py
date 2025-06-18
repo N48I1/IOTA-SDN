@@ -38,7 +38,7 @@ def test_access(src,dst):
 
 def test_certificate():
     print("\nTesting certificate check:")
-    address = "0xC184836543aBd0B70ffb2A8083eEf57F829ACD62"  # access control certificate
+    address = "0xC184836543aBd0B70ffb2A8083eEf57F829ACD62"  # access control account
     make_request(f'http://localhost:5000/check_certificate/{address}')
 
 def test_all_checks():

@@ -1,7 +1,8 @@
 from mininet.topo import Topo
-from mininet.node import Node
+from mininet.node import Node, RemoteController
 from mininet.log import setLogLevel, info
 from mininet.net import Mininet
+from mininet.cli import CLI  # <-- ✅ This fixes the error
 
 class LinuxRouter(Node):
     def config(self, **params):
@@ -30,9 +31,18 @@ class NetworkTopo(Topo):
         self.addLink(h3, s2)
         self.addLink(h4, s2)
         self.addLink(s1, s2)
+
 if __name__ == '__main__':
-    setLogLevel( 'info' )
-    print("Starting Mininet Network")
+    setLogLevel('info')
+    print("🚀 Starting Mininet Network...")
+    
     topo = NetworkTopo()
-    net = Mininet(topo=topo, controller=None)
+    net = Mininet(topo=topo, controller=RemoteController)
+
+    # Connect switches to your running Ryu controller on 127.0.0.1:6633
+    controller = net.addController('c0', controller=RemoteController, ip='127.0.0.1', port=6633)
+
     net.start()
+    print("✅ Mininet Network Started. Type 'exit' to quit.")
+    CLI(net)  # interactive CLI to test pings
+    net.stop()

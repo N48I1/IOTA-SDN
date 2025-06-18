@@ -78,6 +78,7 @@ class Blockchain:
             raise
 
         self.network = self.config['network']
+        self.owner = self.web3.to_checksum_address(self.network['sdn_authority'])
 
     def is_connected(self):
         return self.web3.is_connected()
@@ -87,7 +88,7 @@ class Blockchain:
             if address is None:
                 address = self.network['sdn_authority']
             address = self.web3.to_checksum_address(address)
-            result = self.authority_contract.functions.isCertificateValid(address).call()
+            result = self.authority_contract.functions.isCertificateValid(address).call({'from': self.owner})
             self.logger.info(f"Certificate validity check for {address}: {result}")
             return result
         except Exception as e:
@@ -98,8 +99,8 @@ class Blockchain:
         try:
             source = self.web3.to_checksum_address(source)
             target = self.web3.to_checksum_address(target)
-            result = self.access_control.functions.checkAccess(source, target).call()
-            self.logger.info(f"Access check from {source} to {target}: {result}")
+            result = self.access_control.functions.checkAccess(source, target).call({'from': self.owner})
+            self.logger.info(f"Access check from {source} to {target} (from {self.owner}): {result}")
             return result
         except Exception as e:
             self.logger.error(f"Error checking access from {source} to {target}: {str(e)}")

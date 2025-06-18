@@ -1,7 +1,7 @@
 blockchain:
   iota_evm_url: "https://json-rpc.evm.testnet.iotaledger.net/"
-  contract_address: "0x217f3c3C1859Ae5CF316679Ac3831ECAD97eee08"  # AccessControl Contract
-  authority_contract_address: "0x8859CEA6f5F0DF05252D132F2f0bae5fF73Ed90F"  # Authority Contract
+  contract_address: "0x5ca7245031e15F57706E0cd73D9d8167154A8f9D"  # AccessControl Contract
+  authority_contract_address: "0x17e8CF17ef445ad6D2E3D5D9BEcaADF3629bC79B"  # Authority Contract
 
 network:
   sdn_authority: "0xC184836543aBd0B70ffb2A8083eEf57F829ACD62"
