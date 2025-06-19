@@ -23,6 +23,7 @@ export interface BlockchainConfig {
   switch1?: string;
   switch2?: string;
   switch3?: string;
+  contractAddress?: string;
 }
 
 export interface NetworkNode {

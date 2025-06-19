@@ -35,7 +35,7 @@ export function MetaMaskLogin() {
             const signature = await signer.signMessage(message);
 
             // Envoyer la signature au serveur
-            const response = await fetch('http://192.168.1.8:5000/api/auth/metamask-login', {
+            const response = await fetch('http://192.168.11.143:8080/api/auth/metamask-login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

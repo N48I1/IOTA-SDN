@@ -61,7 +61,7 @@ export function RegisterForm() {
             const message = "Welcome to IOTASDN";
             const signature = await signer.signMessage(message);
 
-            const response = await fetch('http://192.168.1.8:5000/api/auth/register', {
+            const response = await fetch('http://192.168.11.143:8080/api/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

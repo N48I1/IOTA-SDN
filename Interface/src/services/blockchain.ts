@@ -9,6 +9,7 @@ export const blockchainConfig: BlockchainConfig = {
   switch1: '0x1e8ca3b2af6209b92e9181ec689447c9ec032ae3',
   switch2: '0xde84b29a82e908f812ce153748d30aaae10713de',
   switch3: '0x5678901234567890123456789012345678901234',
+  contractAddress: '0xeFa530f657A219f85516E9A5647A7906E00A2556', // Authority contract address
 };
 
 export async function fetchBlockchainStatus(): Promise<NetworkStatusResponse> {
@@ -17,7 +18,7 @@ export async function fetchBlockchainStatus(): Promise<NetworkStatusResponse> {
     throw new Error('No authentication token found.');
   }
 
-  const response = await fetch('http://192.168.1.8:5000/api/network/status', {
+  const response = await fetch('http://192.168.11.143:8080/api/network/status', {
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',

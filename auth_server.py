@@ -17,7 +17,7 @@ from config import BLOCKCHAIN_CONFIG # Import BLOCKCHAIN_CONFIG from config.py
 
 # --- Configuration ---
 
-FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://192.168.1.8:8080')
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://192.168.11.143:8080')
 SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'your-secret-key')
 SEND_EMAIL = os.getenv('SEND_EMAIL', '0') == '1'  # Désactive l'envoi d'email par défaut
 OWNER_PRIVATE_KEY = os.getenv('OWNER_PRIVATE_KEY')
