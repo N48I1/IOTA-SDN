@@ -1,87 +1,93 @@
-2025-06-18 23:03:28,815 - mininet - INFO - *** Creating network
+2025-06-19 02:40:37,773 - mininet - INFO - *** Creating network
 
-2025-06-18 23:03:28,815 - mininet - INFO - *** Adding hosts:
+2025-06-19 02:40:37,774 - mininet - INFO - *** Adding hosts:
 
-2025-06-18 23:03:28,837 - mininet - INFO - h1 
-2025-06-18 23:03:28,857 - mininet - INFO - h2 
-2025-06-18 23:03:28,881 - mininet - INFO - h3 
-2025-06-18 23:03:28,901 - mininet - INFO - h4 
-2025-06-18 23:03:28,902 - mininet - INFO - 
+2025-06-19 02:40:37,780 - mininet - INFO - h1 
+2025-06-19 02:40:37,788 - mininet - INFO - h2 
+2025-06-19 02:40:37,799 - mininet - INFO - h3 
+2025-06-19 02:40:37,812 - mininet - INFO - h4 
+2025-06-19 02:40:37,813 - mininet - INFO - 
 *** Adding switches:
 
-2025-06-18 23:03:28,944 - mininet - INFO - s1 
-2025-06-18 23:03:28,963 - mininet - INFO - s2 
-2025-06-18 23:03:28,964 - mininet - INFO - 
+2025-06-19 02:40:37,845 - mininet - INFO - s1 
+2025-06-19 02:40:37,868 - mininet - INFO - s2 
+2025-06-19 02:40:37,869 - mininet - INFO - 
 *** Adding links:
 
-2025-06-18 23:03:28,979 - mininet - INFO - (h1, s1) 
-2025-06-18 23:03:28,999 - mininet - INFO - (h2, s1) 
-2025-06-18 23:03:29,035 - mininet - INFO - (h3, s2) 
-2025-06-18 23:03:29,056 - mininet - INFO - (h4, s2) 
-2025-06-18 23:03:29,085 - mininet - INFO - (s1, s2) 
-2025-06-18 23:03:29,085 - mininet - INFO - 
+2025-06-19 02:40:37,886 - mininet - INFO - (h1, s1) 
+2025-06-19 02:40:37,910 - mininet - INFO - (h2, s1) 
+2025-06-19 02:40:37,931 - mininet - INFO - (h3, s2) 
+2025-06-19 02:40:37,951 - mininet - INFO - (h4, s2) 
+2025-06-19 02:40:37,968 - mininet - INFO - (s1, s2) 
+2025-06-19 02:40:37,968 - mininet - INFO - 
 
-2025-06-18 23:03:29,086 - mininet - INFO - *** Configuring hosts
+2025-06-19 02:40:37,968 - mininet - INFO - *** Configuring hosts
 
-2025-06-18 23:03:29,086 - mininet - INFO - h1 
-2025-06-18 23:03:29,102 - mininet - INFO - h2 
-2025-06-18 23:03:29,112 - mininet - INFO - h3 
-2025-06-18 23:03:29,117 - mininet - INFO - h4 
-2025-06-18 23:03:29,123 - mininet - INFO - 
+2025-06-19 02:40:37,969 - mininet - INFO - h1 
+2025-06-19 02:40:37,980 - mininet - INFO - h2 
+2025-06-19 02:40:37,989 - mininet - INFO - h3 
+2025-06-19 02:40:37,998 - mininet - INFO - h4 
+2025-06-19 02:40:38,009 - mininet - INFO - 
 
-2025-06-18 23:03:29,123 - mininet - INFO - *** Starting controller
+2025-06-19 02:40:38,010 - mininet - INFO - *** Starting controller
 
-2025-06-18 23:03:29,123 - mininet - INFO - 
+2025-06-19 02:40:38,010 - mininet - INFO - 
 
-2025-06-18 23:03:29,123 - mininet - INFO - *** Starting 2 switches
+2025-06-19 02:40:38,010 - mininet - INFO - *** Starting 2 switches
 
-2025-06-18 23:03:29,123 - mininet - INFO - s1 
-2025-06-18 23:03:29,123 - mininet - INFO - s2 
-2025-06-18 23:03:29,124 - mininet - INFO - ...
-2025-06-18 23:03:29,180 - mininet - INFO - 
+2025-06-19 02:40:38,010 - mininet - INFO - s1 
+2025-06-19 02:40:38,011 - mininet - INFO - s2 
+2025-06-19 02:40:38,011 - mininet - INFO - ...
+2025-06-19 02:40:38,120 - mininet - INFO - 
 
-2025-06-18 23:03:37,424 - mininet - INFO - *** Starting CLI:
+2025-06-19 02:40:46,694 - mininet - INFO - *** Starting CLI:
 
-2025-06-18 23:03:39,930 - mininet - Level 25 - *** Ping: testing ping reachability
+2025-06-19 02:41:13,914 - mininet - Level 25 - *** Ping: testing ping reachability
 
-2025-06-18 23:03:39,930 - mininet - Level 25 - h1 -> 
-2025-06-18 23:03:43,019 - mininet - Level 25 - X 
-2025-06-18 23:03:46,090 - mininet - Level 25 - X 
-2025-06-18 23:03:49,163 - mininet - Level 25 - X 
-2025-06-18 23:03:49,163 - mininet - Level 25 - 
+2025-06-19 02:41:13,914 - mininet - Level 25 - h1 -> 
+2025-06-19 02:41:16,971 - mininet - Level 25 - X 
+2025-06-19 02:41:20,043 - mininet - Level 25 - X 
+2025-06-19 02:41:23,114 - mininet - Level 25 - X 
+2025-06-19 02:41:23,114 - mininet - Level 25 - 
 
-2025-06-18 23:03:49,163 - mininet - Level 25 - h2 -> 
-2025-06-18 23:03:52,234 - mininet - Level 25 - X 
-2025-06-18 23:03:55,227 - mininet - Level 25 - 
+2025-06-19 02:41:23,114 - mininet - Level 25 - h2 -> 
+2025-06-19 02:41:26,186 - mininet - Level 25 - X 
+2025-06-19 02:41:29,259 - mininet - Level 25 - X 
+2025-06-19 02:41:32,331 - mininet - Level 25 - X 
+2025-06-19 02:41:32,331 - mininet - Level 25 - 
+
+2025-06-19 02:41:32,331 - mininet - Level 25 - h3 -> 
+2025-06-19 02:41:35,402 - mininet - Level 25 - X 
+2025-06-19 02:41:37,458 - mininet - Level 25 - 
 Interrupt
 
-2025-06-18 23:03:55,227 - mininet - INFO - stopping h2 
+2025-06-19 02:41:37,458 - mininet - INFO - stopping h3 
 
-2025-06-18 23:03:58,143 - mininet - INFO - *** Stopping 0 controllers
+2025-06-19 02:42:53,667 - mininet - INFO - *** Stopping 0 controllers
 
-2025-06-18 23:03:58,143 - mininet - INFO - 
+2025-06-19 02:42:53,667 - mininet - INFO - 
 
-2025-06-18 23:03:58,143 - mininet - INFO - *** Stopping 5 links
+2025-06-19 02:42:53,668 - mininet - INFO - *** Stopping 5 links
 
-2025-06-18 23:03:58,143 - mininet - INFO - .
-2025-06-18 23:03:58,169 - mininet - INFO - .
-2025-06-18 23:03:58,190 - mininet - INFO - .
-2025-06-18 23:03:58,216 - mininet - INFO - .
-2025-06-18 23:03:58,243 - mininet - INFO - .
-2025-06-18 23:03:58,280 - mininet - INFO - 
+2025-06-19 02:42:53,668 - mininet - INFO - .
+2025-06-19 02:42:53,698 - mininet - INFO - .
+2025-06-19 02:42:53,731 - mininet - INFO - .
+2025-06-19 02:42:53,778 - mininet - INFO - .
+2025-06-19 02:42:53,814 - mininet - INFO - .
+2025-06-19 02:42:53,855 - mininet - INFO - 
 
-2025-06-18 23:03:58,281 - mininet - INFO - *** Stopping 2 switches
+2025-06-19 02:42:53,855 - mininet - INFO - *** Stopping 2 switches
 
-2025-06-18 23:03:58,499 - mininet - INFO - s1 
-2025-06-18 23:03:58,500 - mininet - INFO - s2 
-2025-06-18 23:03:58,500 - mininet - INFO - 
+2025-06-19 02:42:54,065 - mininet - INFO - s1 
+2025-06-19 02:42:54,065 - mininet - INFO - s2 
+2025-06-19 02:42:54,065 - mininet - INFO - 
 
-2025-06-18 23:03:58,500 - mininet - INFO - *** Stopping 4 hosts
+2025-06-19 02:42:54,065 - mininet - INFO - *** Stopping 4 hosts
 
-2025-06-18 23:03:58,500 - mininet - INFO - h1 
-2025-06-18 23:03:58,501 - mininet - INFO - h2 
-2025-06-18 23:03:58,502 - mininet - INFO - h3 
-2025-06-18 23:03:58,503 - mininet - INFO - h4 
-2025-06-18 23:03:58,504 - mininet - INFO - 
+2025-06-19 02:42:54,065 - mininet - INFO - h1 
+2025-06-19 02:42:54,066 - mininet - INFO - h2 
+2025-06-19 02:42:54,066 - mininet - INFO - h3 
+2025-06-19 02:42:54,066 - mininet - INFO - h4 
+2025-06-19 02:42:54,067 - mininet - INFO - 
 *** Done
 

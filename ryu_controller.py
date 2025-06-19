@@ -5,6 +5,7 @@ from ryu.controller.handler import set_ev_cls
 from ryu.ofproto import ofproto_v1_3
 from ryu.lib.packet import packet
 from ryu.lib.packet import ethernet
+from ryu.lib.packet import arp
 import logging
 import urllib.request
 import urllib.error
@@ -42,8 +43,7 @@ class SimpleSwitch(app_manager.RyuApp):
     CONTROLLER_ADDRESS = "0x7F53d082A31c065493A119800AE9B680a752b5F9"
     SWITCH1_ADDRESS = "0x1E9eb2b168993C1c4e79a4B1A7082a1BDA1D3234"
     SWITCH2_ADDRESS = "0xac7c33305CaAB6e53955876374B97ED6203AD1D7"
-    SWITCH3_ADDRESS = "0x5eE1BEdd2E19DebFdD62eA57BDD1AcF8bf36C58A"
-    CONTROLLER2_ADDRESS = "0x52f68B8c1c11DF43eDF0b47ba20952FF5d299218"
+
 
     # Blockchain server configuration
     BLOCKCHAIN_SERVER = "http://127.0.0.1:5000"
@@ -175,14 +175,13 @@ class SimpleSwitch(app_manager.RyuApp):
         self.logger.info("Switch %s connected", datapath.id)
         print(f"\n=== Switch {datapath.id} Connected ===")
 
-        # Check certificate validity
-        switch_address = self.SWITCH1_ADDRESS if datapath.id == 1 else self.SWITCH2_ADDRESS
-        self.logger.info(f"Checking certificate for switch {datapath.id} with address {switch_address}")
-        print(f"Checking certificate for switch {datapath.id}")
-        print(f"Address: {switch_address}")
-        if not self.check_certificate(switch_address):
-            self.logger.error("Switch %s certificate is not valid", datapath.id)
-            print(f"Error: Switch {datapath.id} certificate is not valid")
+        # Only check the SDN authority certificate (not the switch)
+        sdn_authority_address = "0xC184836543aBd0B70ffb2A8083eEf57F829ACD62"
+        self.logger.info(f"Checking certificate for SDN authority: {sdn_authority_address}")
+        print(f"Checking certificate for SDN authority: {sdn_authority_address}")
+        if not self.check_certificate(sdn_authority_address):
+            self.logger.error("SDN authority certificate is not valid")
+            print("Error: SDN authority certificate is not valid")
             return
 
         # Install table-miss flow entry
@@ -215,6 +214,15 @@ class SimpleSwitch(app_manager.RyuApp):
 
         pkt = packet.Packet(msg.data)
         eth = pkt.get_protocols(ethernet.ethernet)[0]
+        pkt_arp = pkt.get_protocol(arp.arp)
+
+        # Always flood ARP packets before any access control logic
+        if pkt_arp:
+            actions = [parser.OFPActionOutput(ofproto.OFPP_FLOOD)]
+            out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
+                                      in_port=in_port, actions=actions, data=msg.data)
+            datapath.send_msg(out)
+            return
 
         dst = eth.dst
         src = eth.src
@@ -226,46 +234,41 @@ class SimpleSwitch(app_manager.RyuApp):
         dpid = datapath.id
         self.mac_to_port.setdefault(dpid, {})
 
-        # Get device addresses
-        src_switch = self.SWITCH1_ADDRESS if dpid == 1 else self.SWITCH2_ADDRESS
-        dst_switch = self.SWITCH2_ADDRESS if dpid == 1 else self.SWITCH1_ADDRESS
-
-        self.logger.info(f"Packet in: switch={dpid}, src={src}, dst={dst}, in_port={in_port}")
-        print(f"\n=== Packet In ===")
-        print(f"Switch: {dpid}")
-        print(f"Source MAC: {src}")
-        print(f"Destination MAC: {dst}")
-        print(f"Input Port: {in_port}")
-
-        self.logger.info(f"Checking access between switches: {src_switch} -> {dst_switch}")
-        print(f"Checking access between switches: {src_switch} -> {dst_switch}")
-
-        # Check access control
-        if not self.check_access(src_switch, dst_switch):
-            self.logger.warning("Access denied between switches %s and %s", src_switch, dst_switch)
-            print(f"Access denied between switches {src_switch} and {dst_switch}")
-            # Install drop flow rule
-            match = parser.OFPMatch(in_port=in_port, eth_dst=dst)
-            actions = []  # Empty actions list means drop
-            self.add_flow(datapath, 2, match, actions)  # Higher priority than normal flows
-            self.logger.info(f"Installed drop flow rule for denied access: {src} -> {dst}")
-            print(f"Installed drop flow rule for denied access: {src} -> {dst}")
-            return
-
         # Learn a mac address to avoid FLOOD next time
         self.mac_to_port[dpid][src] = in_port
-        self.logger.info("Switch %s: Learned MAC %s on port %s", dpid, src, in_port)
-        print(f"Switch {dpid}: Learned MAC {src} on port {in_port}")
 
+        # Find the output port for the destination MAC
         if dst in self.mac_to_port[dpid]:
             out_port = self.mac_to_port[dpid][dst]
-            self.logger.info("Switch %s: Forwarding packet from %s to %s via port %s", 
-                           dpid, src, dst, out_port)
-            print(f"Switch {dpid}: Forwarding packet from {src} to {dst} via port {out_port}")
         else:
             out_port = ofproto.OFPP_FLOOD
-            self.logger.info("Switch %s: Flooding packet from %s to %s", dpid, src, dst)
-            print(f"Switch {dpid}: Flooding packet from {src} to {dst}")
+
+        # Determine if src and dst are on the same switch
+        src_port = self.mac_to_port[dpid][src]
+        dst_port = self.mac_to_port[dpid].get(dst, None)
+
+        # If both MACs are known and on the same switch, always allow
+        if dst_port is not None and src_port == dst_port:
+            allow = True
+        else:
+            # Inter-switch traffic: check access between switches
+            if dpid == 1:
+                # Traffic from s1 to s2
+                allow = self.check_access(self.SWITCH1_ADDRESS, self.SWITCH2_ADDRESS)
+            elif dpid == 2:
+                # Traffic from s2 to s1
+                allow = self.check_access(self.SWITCH2_ADDRESS, self.SWITCH1_ADDRESS)
+            else:
+                allow = False
+
+        if not allow:
+            # Access denied: install drop rule
+            match = parser.OFPMatch(in_port=in_port, eth_dst=dst)
+            actions = []
+            self.add_flow(datapath, 2, match, actions)
+            self.logger.info(f"Access denied: drop rule installed for {src} -> {dst}")
+            print(f"Access denied: drop rule installed for {src} -> {dst}")
+            return
 
         actions = [parser.OFPActionOutput(out_port)]
 
@@ -273,14 +276,13 @@ class SimpleSwitch(app_manager.RyuApp):
         if out_port != ofproto.OFPP_FLOOD:
             match = parser.OFPMatch(in_port=in_port, eth_dst=dst)
             self.add_flow(datapath, 1, match, actions)
-            self.logger.info("Switch %s: Added flow entry for %s -> %s via port %s",
-                           dpid, src, dst, out_port)
-            print(f"Switch {dpid}: Added flow entry for {src} -> {dst} via port {out_port}")
+            self.logger.info(f"Flow entry added for {src} -> {dst} via port {out_port}")
+            print(f"Flow entry added for {src} -> {dst} via port {out_port}")
 
         data = None
         if msg.buffer_id == ofproto.OFP_NO_BUFFER:
             data = msg.data
 
         out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
-                                in_port=in_port, actions=actions, data=data)
+                                  in_port=in_port, actions=actions, data=data)
         datapath.send_msg(out)
