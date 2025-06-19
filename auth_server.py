@@ -55,7 +55,7 @@ else:
 
 # Liste des adresses Ethereum autorisées
 AUTHORIZED_ADDRESSES = [
-    "0x175E7264D97a4B406df9EDAC8f7B7b7eB50DA0ae",  # Remplacez par les adresses autorisées
+    "0xC1dF359d248FA91fbd73E9B80C91EC6a48E23c62",
 ]
 
 # Define the lists of controllers and switches for comprehensive checks
