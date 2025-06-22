@@ -153,6 +153,7 @@ if ask_permission "the Ryu controller"; then
   # Launch Ryu controller in background
   gnome-terminal --title="Ryu Controller" -- bash -c "
     echo -e '${YELLOW}>> Starting Ryu controller...${NC}';
+    source ryu-env-py39/bin/activate 2>/dev/null || echo 'No virtual environment found';
     $RYU_ENV $RYU_SCRIPT;
     echo -e '${RED}Ryu controller terminated.${NC}';
     read -p 'Press Enter to close...'

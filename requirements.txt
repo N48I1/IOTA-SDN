@@ -3,5 +3,6 @@ web3
 pyyaml
 urllib3
 ryu==4.34
+eventlet==0.30.2
 # Mininet is best installed system-wide, but if using pip or for reference:
 mininet==2.3.0d6 

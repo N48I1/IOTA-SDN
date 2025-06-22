@@ -6,7 +6,7 @@
                         ██║╚██████╔╝   ██║   ██║  ██║      ███████║██████╔╝██║ ╚████║
                         ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝      ╚══════╝╚═════╝ ╚═╝  ╚═══╝
 </pre>
-
+![Demo](assets/demo.gif)
 **IOTA 2.0 Smart Contracts for Securing Software-Defined Networking Ecosystem**
 
 This project aims to enhance SDN security using IOTA 2.0 smart contracts, ensuring scalability, efficiency, and protection against cyber threats such as unauthorized access and DoS attacks.
